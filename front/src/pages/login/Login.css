@@ -1,0 +1,33 @@
+
+* {
+    margin: 0 ;
+    padding: 0;
+    color: var(--black);
+}
+
+#root {
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.contenedor-login {
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--light-grey);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contenedor-blanco {
+    background-color: var(--white);
+    flex-direction: row-reverse;
+    width: 41rem;
+    height: 30rem;
+    border-radius: 1rem;
+    box-shadow: 3px 3px 10px 10px hsla(0, 0%, 0%, 0.2);
+}
+
+.contenedor-imagen {
+    background-color: var(--dark-green);
+}
