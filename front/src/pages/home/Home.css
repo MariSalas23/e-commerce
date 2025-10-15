@@ -1,0 +1,14 @@
+* {
+    margin: 0 ;
+    padding: 0;
+    color: var(--dark-blue);
+}
+
+.home {
+    background-color: white;
+}
+
+.contenedor_blanco {
+    background-color: white;
+    box-shadow: 10px 10px hsla(0, 0%, 0%, 0.5);
+}

@@ -1,6 +1,6 @@
 import React from "react";
-import Home from "./pages/Home"; // importa tu interfaz principal
-import "./App.css"; // estilos globales opcionales
+import Home from "./pages/home/Home";
+import "./App.css";
 
 function App() {
   return (
