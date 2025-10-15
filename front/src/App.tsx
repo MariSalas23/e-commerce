@@ -1,23 +1,14 @@
-import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/home/Home";
 import "./App.css";
 
 function App() {
   return (
-    <div className="app-container">
-      <header className="app-header">
-        <h1>E-Commerce</h1>
-      </header>
-
-      {/* Renderiza solo la página Home */}
-      <main>
-        <Home />
-      </main>
-
-      <footer className="app-footer">
-        <p>© {new Date().getFullYear()} Proyecto E-Commerce — Simulación segura</p>
-      </footer>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </Router>
   );
 }
 
