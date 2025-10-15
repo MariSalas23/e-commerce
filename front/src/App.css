@@ -1,4 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap');
+
 :root {
+  --poppins: "Poppins", sans-serif;
+  --roboto: "Roboto", sans-serif;
+
   --dark-green: hsl(78, 32%, 29%);
   --light-green: hsl(78, 28%, 60%);
   --white: hsl(0,0%,100%); 
