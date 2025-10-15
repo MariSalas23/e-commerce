@@ -20,9 +20,78 @@
 
 .contenedor-blanco {
     background-color: var(--white);
-    flex-direction: row-reverse;
-    width: 41rem;
-    height: 30rem;
-    border-radius: 1rem;
+    width: 40rem;
+    height: 28rem;
+    border-radius: 0.5rem;
     box-shadow: 3px 3px 10px 10px hsla(0, 0%, 0%, 0.2);
+    display: grid;                   
+    grid-template-columns: 55% 45%;
+}
+
+.contenedor-imagen {
+    background-color: var(--dark-green);
+    display: grid;
+    place-items: center;
+    border-radius: 0.5rem;
+    margin: 1.3rem;
+
+    img {
+        width: min(78%, 300px);
+        max-width: 300px;
+        height: auto;
+        display: block;
+    }
+}
+
+.contenedor-texto {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.contenedor-texto {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;  
+    text-align: left;
+    gap: 1rem;
+}
+
+h1 {
+    font-family: var(--poppins);
+    font-size: 2.2rem;
+    font-weight: 600;
+}
+
+h2 {
+    font-family: var(--poppins);
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+
+p {
+    font-family: var(--roboto);
+    font-size: 0.88rem;
+}
+
+.botones {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    border: 0;
+
+    .btn-login {
+  
+    }
+
+    .btn-sigin {
+     
+    }
+}
+
+button {
+    padding: 0.6em 1.2em;
+    border-radius: 0.2rem;
 }
