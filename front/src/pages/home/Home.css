@@ -20,9 +20,22 @@
 
 .contenedor-blanco {
     background-color: var(--white);
-    flex-direction: row-reverse;
-    width: 41rem;
-    height: 30rem;
-    border-radius: 1rem;
+    width: 70rem;
+    height: 50rem;
+    border-radius: 0.7rem;
     box-shadow: 3px 3px 10px 10px hsla(0, 0%, 0%, 0.2);
+    display: grid;                    /* divide en dos columnas */
+    grid-template-columns: 1.2fr 1fr;
+}
+
+.contenedor-imagen {
+    background-color: var(--dark-green);
+    display: grid;
+    place-items: center;
+    border-radius: 0.7rem;
+    margin: 2rem;
+}
+
+.contenedor-texto {
+
 }
