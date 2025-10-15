@@ -3,10 +3,10 @@ import './Home.css';
 
 const Home = () => {
   return (
-    <div className="home">
-      <div className="contenedor_blanco">
+    <div className="contenedor-home">
+      <div className="contenedor-blanco">
         {/* Panel izquierdo con imagen */}
-        <div className="contenedor_imagen">
+        <div className="contenedor-imagen">
           <img
             src="/assets/arepas.png"  // Coloca aquí la ruta de tu imagen
             alt="Canasta de arepas"
@@ -15,7 +15,7 @@ const Home = () => {
         </div>
 
         {/* Panel derecho con texto y botones */}
-        <div className="contenedor_texto">
+        <div className="contenedor-texto">
           <h1 className="titulo">Arepabuelas</h1>
           <h2 className="subtitulo">de la esquina</h2>
           <p className="mensaje">Por favor, ingresa tu sesión o regístrate</p>
