@@ -8,7 +8,7 @@ const Producto = () => {
         <div className="productos-producto">
             <div className="contenedor-titulo-producto">
                 <h1 className="nombre-producto">Nombre</h1>
-                <h1 className="precio-producto">Precio</h1>
+                <h1 className="precio-producto">Precio COP</h1>
             </div>
             <div className="contenedor-imagen-producto">
                 <img src={imgProducto} alt="Producto" />
