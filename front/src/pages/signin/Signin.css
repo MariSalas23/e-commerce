@@ -35,12 +35,11 @@
     border-radius: 0.5rem;
 
     img {
-        width: min(96%, 310px);
-        max-width: 310px;
+        width: min(90%, 300px);
+        max-width: 300px;
         height: auto;
         display: block;
         border-radius: 0.5rem;
-        margin-bottom: 0.5rem;
     }
 }
 
