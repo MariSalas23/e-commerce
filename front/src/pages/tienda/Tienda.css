@@ -1,0 +1,10 @@
+* {
+    margin: 0 ;
+    padding: 0;
+    color: var(--black);
+}
+
+#root {
+    text-align: center;
+    box-sizing: border-box;
+}

@@ -8,6 +8,11 @@ import Compra from "./pages/compra/Compra";
 import Comentario from "./pages/comentario/Comentario";
 import Perfil from "./pages/perfil/Perfil";
 import Historial from "./pages/historial/Historial";
+import Admin from "./pages/admin/Admin";
+import Carrito from "./pages/carrito/Carrito";
+import Pago from "./pages/pago/Pago";
+import Tienda from "./pages/tienda/Tienda";
+import Producto from "./pages/producto/Producto";
 import "./App.css";
 
 function App() {
@@ -22,6 +27,11 @@ function App() {
         <Route path="/comentario" element={<Comentario />} />
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/historial" element={<Historial />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/carrito" element={<Carrito />} />
+        <Route path="/pago" element={<Pago />} />
+        <Route path="/producto" element={<Producto />} />
+        <Route path="/tienda" element={<Tienda />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </Router>

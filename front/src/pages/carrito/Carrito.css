@@ -1,0 +1,16 @@
+* {
+    margin: 0 ;
+    padding: 0;
+    color: var(--black);
+}
+
+#root {
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.contenedor-carrito {
+  min-height: 100vh;
+  width: 100vw;
+  background-color: var(--light-grey);
+}
