@@ -18,7 +18,7 @@
   justify-content: center;
 }
 
-.contenedor-blanco {
+.contenedor-blanco-login {
     background-color: var(--white);
     width: 40rem;
     height: 28rem;
@@ -28,7 +28,7 @@
     grid-template-columns: 45% 55%;
 }
 
-.contenedor-imagen {
+.contenedor-imagen-login {
     background-color: var(--dark-green) !important;
     display: grid;
     place-items: center;
@@ -44,7 +44,7 @@
     }
 }
 
-.contenedor-form {
+.contenedor-form-login {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,7 +55,7 @@
   margin-right: 1.4rem;
 }
 
-.titulo {
+.titulo-login {
   font-family: var(--poppins);
   font-size: 2.2rem;
   font-weight: 600;
@@ -120,23 +120,23 @@ button {
   cursor: pointer;
 }
 
-.btn-regresar {
+.btn-regresar-login {
   background-color: var(--light-grey);
   color: var(--dark-green);
   transition: background-color 0.3s ease;
 }
 
-.btn-regresar:hover {
+.btn-regresar-login:hover {
   background-color: #ccc;
 }
 
-.btn-login {
+.btn-login-login {
   background-color: var(--dark-green);
   color: var(--white);
   transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
-.btn-login:hover {
+.btn-login-login:hover {
   background-color: var(--light-green);
   transform: scale(1.02);
 }
