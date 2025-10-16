@@ -1,0 +1,129 @@
+* {
+    margin: 0 ;
+    padding: 0;
+    color: var(--black);
+}
+
+#root {
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.contenedor-perfil {
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--light-grey);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contenedor-blanco-perfil {
+    background-color: var(--white);
+    width: 40rem;
+    height: 28rem;
+    border-radius: 0.5rem;
+    box-shadow: 3px 3px 10px 10px hsla(0, 0%, 0%, 0.2);
+    display: grid;                   
+    grid-template-columns: 54% 46%;
+}
+
+.contenedor-imagen-perfil {
+    background-color: var(--white);
+    display: grid;
+    place-items: center;
+    border-radius: 0.5rem;
+
+    img {
+        width: min(90%, 300px);
+        max-width: 300px;
+        height: auto;
+        display: block;
+        border-radius: 0.5rem;
+    }
+}
+
+.contenedor-texto-perfil {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;  
+    text-align: center;
+    gap: 1.5rem;
+    margin: 2.3rem;
+    margin-right: 3.6rem;
+
+    img {
+        width: min(85%, 300px);
+        max-width: 300px;
+        height: auto;
+        display: block;
+    }
+
+    .contenedor-titulo-perfil {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .titulo-perfil {
+    font-family: var(--poppins);
+    font-size: 1.3rem;
+    font-weight: 500;
+    }
+
+    .subtitulo-perfil {
+    font-family: var(--poppins);
+    font-size: 0.9rem;
+    font-weight: 300;
+    }
+}
+
+.botones-perfil {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; 
+    gap: 1rem;   
+    
+    .botones-fila {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;  
+    }
+
+    .btn-historial {
+        background-color: var(--dark-green);
+        color: var(--white);
+        border: 0;
+        padding: 0.6rem 0.9rem;
+        border-radius: 0.5rem;
+        font-family: var(--poppins);
+        font-size: 0.88rem;
+        font-weight: 600;
+        width: 11.7rem;
+    }
+
+    .btn-regresar-perfil {
+        background-color: var(--light-green);
+        color: var(--dark-green);
+        border: 0;
+        padding: 0.6rem 0.9rem;
+        border-radius: 0.5rem;
+        font-family: var(--poppins);
+        font-size: 0.88rem;
+        font-weight: 600;
+    }
+
+    .btn-logout {
+        background-color: var(--light-grey);
+        color: var(--dark-green);
+        border: 0;
+        padding: 0.6rem 0.9rem;
+        border-radius: 0.5rem;
+        font-family: var(--poppins);
+        font-size: 0.88rem;
+        font-weight: 600;
+    }
+}
