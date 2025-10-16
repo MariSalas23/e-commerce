@@ -7,6 +7,7 @@ import Error from "./pages/error/Error";
 import Compra from "./pages/compra/Compra";
 import Comentario from "./pages/comentario/Comentario";
 import Perfil from "./pages/perfil/Perfil";
+import Historial from "./pages/historial/Historial";
 import "./App.css";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/compra" element={<Compra />} />
         <Route path="/comentario" element={<Comentario />} />
         <Route path="/perfil" element={<Perfil />} />
+        <Route path="/historial" element={<Historial />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </Router>
