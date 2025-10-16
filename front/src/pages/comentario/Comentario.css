@@ -1,0 +1,103 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.contenedor-comentario-login {
+  min-height: 100vh;
+  width: 100vw;
+  background-color: var(--light-grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contenedor-blanco-comentario {
+  background-color: var(--white);
+  width: 40rem;
+  padding: 2.5rem 3rem;
+  border-radius: 0.6rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.titulo-comentario {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--black);
+  text-align: left;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.formulario-comentario-login {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
+  width: 100%;
+}
+
+.campo-texto-comentario {
+  width: 100%;
+  height: 6rem;
+  border: 1px solid #cdd1d4;
+  border-radius: 0.5rem;
+  background-color: #f7f9fa;
+  padding: 1rem;
+  font-size: 0.95rem;
+  color: #333;
+  resize: none;
+  line-height: 1.4;
+}
+
+.campo-texto-comentario:focus {
+  outline: none;
+  border-color: var(--light-green);
+  box-shadow: 0 0 4px var(--light-green);
+}
+
+.botones-comentario-login {
+  display: flex;
+  justify-content: flex-start; 
+  gap: 1.5rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.btn-regresar-comentario,
+.btn-publicar-comentario {
+  padding: 0.7rem 2rem;
+  border: none;
+  border-radius: 0.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.btn-regresar-comentario {
+  background-color: #b4c48f;
+  color: var(--dark-green);
+}
+
+.btn-regresar-comentario:hover {
+  background-color: #a1b27b;
+  transform: scale(1.02);
+}
+
+.btn-publicar-comentario {
+  background-color: var(--dark-green);
+  color: var(--white);
+}
+
+.btn-publicar-comentario:hover {
+  background-color: var(--light-green);
+  color: var(--black);
+  transform: scale(1.02);
+}
