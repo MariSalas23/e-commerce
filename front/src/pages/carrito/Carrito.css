@@ -18,7 +18,7 @@
   align-items: center;
 }
 
-.navbar {
+.navbar-carrito {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -27,33 +27,33 @@
   background-color: #fff;
 }
 
-.logo-container {
+.logo-container-carrito {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.logo {
-  width: 45px;
-  height: 45px;
+.logo-carrito {
+  width: 65px;
+  height: 65px;
 }
 
-.nombre {
+.nombre-carrito {
   font-family: 'Poppins', sans-serif;
   color: #5a6530;
   font-size: 22px;
   font-weight: 600;
 }
 
-.iconos {
+.iconos-carrito {
   display: flex;
   align-items: center;
   gap: 25px;
 }
 
-.icono {
-  width: 28px;
-  height: 28px;
+.icono-carrito {
+  width: 45px;
+  height: 45px;
   cursor: pointer;
 }
 
@@ -78,7 +78,7 @@
   box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
 }
 
-.encabezado-tabla {
+.encabezado-tabla-carrito {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
   font-weight: 600;
@@ -93,13 +93,13 @@
   margin-top: 25px;
 }
 
-.producto {
+.producto-carrito {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
-.img-producto {
+.img-producto-carrito {
   width: 70px;
   border-radius: 10px;
 }
@@ -109,25 +109,25 @@
   font-weight: 600;
 }
 
-.quitar {
+.quitar-carrito {
   color: #5a6530;
   font-size: 13px;
   text-decoration: underline;
   cursor: pointer;
 }
 
-.precio, .total {
+.precio-carrito, .total-carrito {
   text-align: center;
 }
 
-.cantidad {
+.cantidad-carrito {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
 }
 
-.cantidad button {
+.cantidad-button-carrito {
   background-color: #fff;
   border: 1px solid #5a6530;
   color: #5a6530;
@@ -143,7 +143,7 @@
   margin-top: 40px;
 }
 
-.btn-regresar, .btn-comprar {
+.btn-regresar-carrito, .btn-comprar-carrito {
   font-family: 'Poppins', sans-serif;
   font-size: 15px;
   padding: 10px 25px;
@@ -153,12 +153,12 @@
   font-weight: 600;
 }
 
-.btn-regresar {
+.btn-regresar-carrito {
   background-color: #c3cf9b;
   color: #3c4320;
 }
 
-.btn-comprar {
+.btn-comprar-carrito {
   background-color: #5a6530;
   color: #fff;
 }
