@@ -10,7 +10,7 @@
     box-sizing: border-box;
 }
 
-.contenedor-login {
+.contenedor-login-login {
     height: 100vh;
     width: 100vw;
     background-color: var(--light-grey);
@@ -19,7 +19,7 @@
     justify-content: center;
 }
 
-.contenedor-blanco {
+.contenedor-blanco-login {
     background-color: var(--white);
     flex-direction: row-reverse;
     width: 41rem;
@@ -28,6 +28,6 @@
     box-shadow: 3px 3px 10px 10px hsla(0, 0%, 0%, 0.2);
 }
 
-.contenedor-imagen {
+.contenedor-imagen-login {
     background-color: var(--dark-green);
 }

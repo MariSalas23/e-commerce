@@ -18,7 +18,7 @@
     justify-content: center;
 }
 
-.contenedor-blanco {
+.contenedor-blanco-signin {
     background-color: var(--white);
     width: 40rem;
     height: 28rem;
@@ -28,7 +28,7 @@
     grid-template-columns: 45% 55%;
 }
 
-.contenedor-imagen {
+.contenedor-imagen-signin {
     background-color: var(--white);
     display: grid;
     place-items: center;
@@ -44,19 +44,19 @@
     }
 }
 
-.botones {
+.botones-signin {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     width: 100%;       
 
-    .btn-regresar {
+    .btn-regresar-signin {
         background-color: var(--light-grey);
         color: var(--dark-green)
     }
 
-    .btn-signin {
+    .btn-signin-signin {
         background-color: var(--dark-green);
         color: var(--white)
     }
@@ -71,7 +71,7 @@ button {
     font-weight: 600;
 }
 
-.formulario{
+.formulario-signin{
     display: flex;
     flex-direction: column;
     gap: 0.5rem;                
@@ -99,7 +99,7 @@ input {
     width: 100%;
 }
 
-.contenedor-texto {
+.contenedor-texto-signin {
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -5,14 +5,14 @@ import imgArepas from '../../assets/arepas.png';
 const Signin = () => {
   return (
     <div className="contenedor-signin">
-      <div className="contenedor-blanco">
+      <div className="contenedor-blanco-signin">
 
-        <div className="contenedor-texto">
-          <div className="contenedor-titulo">
+        <div className="contenedor-texto-signin">
+          <div className="contenedor-titulo-signin">
             <h1 className="titulo">Sign In</h1>
           </div>
         
-          <form className="formulario">
+          <form className="formulario-signin">
             <div className="grupo-campo">
                 <label htmlFor="nombre">Nombre</label>
                 <input
@@ -46,12 +46,12 @@ const Signin = () => {
                 />
             </div>
           </form>
-         <div className="botones">
-                <button className="btn-regresar">Regresar</button>
-                <button className="btn-signin">Registrarse</button>
+         <div className="botones-signin">
+                <button className="btn-regresar-signin">Regresar</button>
+                <button className="btn-signin-signin">Registrarse</button>
         </div>
         </div>
-        <div className="contenedor-imagen">
+        <div className="contenedor-imagen-signin">
           <img src={imgArepas} alt="Arepas" />
         </div>
       </div>

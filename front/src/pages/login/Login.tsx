@@ -4,9 +4,9 @@ import './Login.css';
 const Login = () => {
     return (
         <div className='contenedor-login'>
-            <div className='contenedor-blanco'>
+            <div className='contenedor-blanco-login'>
                 {/* Panel derecho con imagen */}
-                    <div className="contenedor-imagen">
+                    <div className="contenedor-imagen-login">
                         <img
                             src="/assets/user.png"
                             alt="User"
@@ -15,7 +15,7 @@ const Login = () => {
                     </div>
 
                 {/* Panel derecho con formulario */}
-                    <div className="contenedor-texto">
+                    <div className="contenedor-texto-login">
                         <h1 className="titulo">Log In</h1>
                         <form className="formulario-login">
                             <label htmlFor="usuario">Usuario</label>
