@@ -10,18 +10,18 @@ const Login = () => {
                     <div className="contenedor-form">
                         <h1 className="titulo">Log In</h1>
                         <form className="formulario-login">
-                            <label htmlFor="usuario">Usuario</label>
+                            <label htmlFor="Correo">Usuario</label>
                             <input
                             type="text"     
-                            id="usuario"
-                            placeholder="Usuario"
+                            id="correo"
+                            placeholder="Correo"
                             />
 
                             <label htmlFor="password">Contraseña</label>
                             <input
                             type="password"
                             id="password"
-                            placeholder="********"
+                            placeholder="contraseña"
                             />
 
                             <div className="botones-login">

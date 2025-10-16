@@ -1,113 +1,138 @@
-
 * {
-    margin: 0 ;
-    padding: 0;
-    color: var(--black);
+  margin: 0;
+  padding: 0;
+  color: var(--black);
+  box-sizing: border-box;
 }
 
 #root {
-    text-align: center;
-    box-sizing: border-box;
+  text-align: center;
 }
 
 .contenedor-login {
-    height: 100vh;
-    width: 100vw;
-    background-color: var(--light-grey);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--light-grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .contenedor-blanco {
-    background-color: var(--blanco);
-    width: 45rem;
-    height: 30rem;
-    border-radius: 0.6rem;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-    display: grid;
+    background-color: var(--white);
+    width: 40rem;
+    height: 28rem;
+    border-radius: 0.5rem;
+    box-shadow: 3px 3px 10px 10px hsla(0, 0%, 0%, 0.2);
+    display: grid;                   
     grid-template-columns: 45% 55%;
-    overflow: hidden;
 }
 
 .contenedor-imagen {
-    background-color: var(--dark-green);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    background-color: var(--dark-green) !important;
+    display: grid;
+    place-items: center;
+    border-radius: 0.5rem;
 
-.imagen_user {
-  width: 130px;
-  height: 130px;
-  object-fit: contain;
+    img {
+        width: min(75%, 200px);
+        max-width: 310px;
+        height: auto;
+        display: block;
+        border-radius: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
 }
 
 .contenedor-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 2.5rem;    
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  gap: 1.5rem;
+  margin-left: 2.9rem;
+  margin-right: 1.4rem;
 }
 
 .titulo {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
+  font-family: var(--poppins);
+  font-size: 2.2rem;
+  font-weight: 600;
   color: var(--black);
-    text-align: left;
+  text-align: left;
+  width: 100%;
 }
 
 .formulario-login {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 0.8rem;
+  width: 92%;
+  font-family: var(--roboto);
+  font-size: 0.9rem;
 }
 
-label {
-  width: 100%;
-  text-align: left;       /* ← texto del label a la izquierda */
-  font-size: 0.95rem;
+.grupo-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.grupo-campo label {
+  color: var(--grey);
   font-weight: 500;
-  color: var(--black);
-  margin-bottom: 0.2rem;  /* separa ligeramente el label del input */
+  text-align: left;
 }
 
 input {
-  width: 100%;
-  padding: 0.6rem 0.8rem;
-  border: 1px solid #ccc;
-  border-radius: 0.4rem;
-  font-size: 0.9rem;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--grey);
   background-color: var(--white);
+  padding: 0.6rem 0.6rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 input:focus {
   outline: none;
   border-color: var(--light-green);
   box-shadow: 0 0 4px var(--light-green);
-  background-color: var(--white); 
 }
 
 .botones-login {
   display: flex;
+  flex-direction: row;
   justify-content: flex-start;
-  gap: 1rem;                   /* Espacio entre los botones */
+  align-items: center;
   width: 100%;
-  margin-top: 0.5rem;
-
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
-/* Botón "Ingresar" */
-.btn-login {
-  background-color: var(--dark-green);
-  color: #fff;
-  border: none;
-  padding: 0.7rem 2rem;
-  border-radius: 0.4rem;
+button {
+  border: 0;
+  padding: 0.6rem 0.9rem;
+  border-radius: 0.5rem;
+  font-family: var(--poppins);
+  font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
+}
+
+.btn-regresar {
+  background-color: var(--light-grey);
+  color: var(--dark-green);
+  transition: background-color 0.3s ease;
+}
+
+.btn-regresar:hover {
+  background-color: #ccc;
+}
+
+.btn-login {
+  background-color: var(--dark-green);
+  color: var(--white);
   transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
@@ -116,18 +141,3 @@ input:focus {
   transform: scale(1.02);
 }
 
-/* Botón "Regresar" */
-.btn-regresar {
-  background-color: #e6e6e6;
-  color: #333;
-  border: none;
-  padding: 0.7rem 2rem;
-  border-radius: 0.4rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.btn-regresar:hover {
-  background-color: #ccc;
-}
