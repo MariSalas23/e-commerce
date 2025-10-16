@@ -1,0 +1,77 @@
+* {
+    margin: 0 ;
+    padding: 0;
+    color: var(--black);
+}
+
+#root {
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.contenedor-compra {
+    height: 100vh;
+    width: 100vw;
+    
+    background-image: url("/assets/fondo.png");
+    background-size: cover;    
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contenedor-blanco-compra {
+    background-color: var(--white);
+    width: 25rem;
+    height: 25rem;
+    border-radius: 0.5rem;
+    box-shadow: 3px 3px 10px 10px hsla(0, 0%, 0%, 0.2);
+
+    display: flex;  
+    flex-direction: column;   
+    justify-content: space-between;
+    align-items: stretch;  
+    padding: 4rem; 
+    gap: 1rem;           
+}
+
+img {
+    width: min(20%, 310px);
+    max-width: 310px;
+    height: auto;
+    display: block;
+}
+
+.contenedor-texto-compra {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;  
+    text-align: left;
+    gap: 1.5rem;
+    margin: 0;
+}
+
+.btn-volver-compra {
+    background-color: var(--dark-green);
+    color: var(--white);
+    border: 0;
+    padding: 0.6rem 0.9rem;
+    border-radius: 0.5rem;
+    font-family: var(--poppins);
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.titulo-compra {
+    font-family: var(--poppins);
+    font-size: 1.9rem;
+    font-weight: 600;
+}
+
+.mensaje-compra {
+    font-size: 1rem;
+}

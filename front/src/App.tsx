@@ -4,6 +4,7 @@ import Login from "./pages/login/Login";
 import Signin from "./pages/signin/Signin";
 import Solicitud from "./pages/solicitud/Solicitud";
 import Error from "./pages/error/Error";
+import Compra from "./pages/compra/Compra";
 import "./App.css";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/solicitud" element={<Solicitud />} />
+        <Route path="/compra" element={<Compra />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </Router>
