@@ -10,7 +10,17 @@
 }
 
 .contenedor-pago {
-  min-height: 100vh;
-  width: 100vw;
-  background-color: var(--light-grey);
+    min-height: 100vh;
+    width: 100vw;
+    background-color: var(--light-grey);
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.contenedor-informacion {
+
+}
+
+.contenedor-metodo {
+    background-color: var(--white);
 }
