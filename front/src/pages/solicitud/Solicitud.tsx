@@ -9,8 +9,8 @@ const Solicitud = () => {
         <div className="contenedor-blanco-solicitud">
             <img src={imgBien} alt="Bien" />
             <div className="contenedor-texto-solicitud">
-                <h1>¡Solicitud exitosa!</h1>
-                <p>Vuelve a la página principal para ingresar las credenciales más tarde</p>
+                <h1 className="titulo-solicitud">¡Solicitud exitosa!</h1>
+                <p  className="mensaje-solicitud">Vuelve a la página principal para ingresar las credenciales más tarde</p>
             </div>
             <button className="btn-volver-solicitud">Volver a la página principal</button>
         </div>

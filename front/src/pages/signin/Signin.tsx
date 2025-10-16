@@ -9,13 +9,13 @@ const Signin = () => {
 
         <div className="contenedor-texto-signin">
           <div className="contenedor-titulo-signin">
-            <h1 className="titulo">Sign In</h1>
+            <h1 className="titulo-signin">Sign In</h1>
           </div>
         
           <form className="formulario-signin">
-            <div className="grupo-campo">
+            <div className="grupo-campo-signin">
                 <label htmlFor="nombre">Nombre</label>
-                <input
+                <input className="input-signin"
                 type="text"
                 id="nombre"
                 name="nombre"
@@ -24,9 +24,9 @@ const Signin = () => {
                 />
             </div>
 
-            <div className="grupo-campo">
+            <div className="grupo-campo-signin">
                 <label htmlFor="correo">Correo</label>
-                <input
+                <input className="input-signin"
                 type="email"
                 id="correo"
                 name="correo"
@@ -35,9 +35,9 @@ const Signin = () => {
                 />
             </div>
 
-            <div className="grupo-campo">
+            <div className="grupo-campo-signin">
                 <label htmlFor="password">Contraseña</label>
-                <input
+                <input className="input-signin"
                 type="password"
                 id="password"
                 name="password"

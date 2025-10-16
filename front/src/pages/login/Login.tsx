@@ -1,39 +1,38 @@
 import React from 'react';
 import './Login.css';
+import imgUsr from '../../assets/user.png';
 
 const Login = () => {
     return (
         <div className='contenedor-login'>
-            <div className='contenedor-blanco-login'>
-                {/* Panel derecho con imagen */}
-                    <div className="contenedor-imagen-login">
-                        <img
-                            src="/assets/user.png"
-                            alt="User"
-                            className="imagen_user"
-                        />
-                    </div>
-
+            <div className='contenedor-blanco'>
                 {/* Panel derecho con formulario */}
-                    <div className="contenedor-texto-login">
+                    <div className="contenedor-form">
                         <h1 className="titulo">Log In</h1>
                         <form className="formulario-login">
-                            <label htmlFor="usuario">Usuario</label>
+                            <label htmlFor="Correo">Usuario</label>
                             <input
                             type="text"     
-                            id="usuario"
-                            placeholder="Usuario"
+                            id="correo"
+                            placeholder="Correo"
                             />
 
                             <label htmlFor="password">Contraseña</label>
                             <input
                             type="password"
                             id="password"
-                            placeholder="********"
+                            placeholder="contraseña"
                             />
 
-                            <button type="submit" className="btn-login"> Ingresar </button>
+                            <div className="botones-login">
+                                <button type="button" className="btn-regresar">Regresar</button>
+                                <button type="submit" className="btn-login">Ingresar</button>
+                            </div>
                         </form>
+                    </div>
+                {/* Panel derecho con imagen */}
+                    <div className="contenedor-imagen">
+                        <img src={imgUsr} alt="User" />
                     </div>
             </div>
         </div>

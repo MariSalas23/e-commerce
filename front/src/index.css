@@ -13,6 +13,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+p {
+  font-family: var(--roboto);
+  font-size: 0.88rem;
+}
+
 a {
   font-weight: 500;
   color: #646cff;

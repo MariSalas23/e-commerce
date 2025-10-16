@@ -53,22 +53,25 @@
 
     .btn-regresar-signin {
         background-color: var(--light-grey);
-        color: var(--dark-green)
+        color: var(--dark-green);
+        border: 0;
+        padding: 0.6rem 0.9rem;
+        border-radius: 0.5rem;
+        font-family: var(--poppins);
+        font-size: 0.88rem;
+        font-weight: 600;
     }
 
     .btn-signin-signin {
         background-color: var(--dark-green);
-        color: var(--white)
+        color: var(--white);
+        border: 0;
+        padding: 0.6rem 0.9rem;
+        border-radius: 0.5rem;
+        font-family: var(--poppins);
+        font-size: 0.88rem;
+        font-weight: 600;
     }
-}
-
-button {
-    border: 0;
-    padding: 0.6rem 0.9rem;
-    border-radius: 0.5rem;
-    font-family: var(--poppins);
-    font-size: 0.88rem;
-    font-weight: 600;
 }
 
 .formulario-signin{
@@ -78,25 +81,25 @@ button {
     font-family: var(--roboto);
     font-size: 0.88rem;
     width: 92%;
+
+    .input-signin {
+        border: 1px solid var(--grey);
+        background-color: var(--light-grey);
+        padding: 0.6rem 0.6rem;
+        border-radius: 0.5rem;
+        width: 109%;
+    }
 }
 
-.grupo-campo{
+.grupo-campo-signin{
   display: flex;
   flex-direction: column;
   gap: .45rem;
 }
 
-.grupo-campo label{
+.grupo-campo-signin label{
   color: var(--grey);
   font-weight: 500;
-}
-
-input {
-    border: 1px solid var(--grey);
-    background-color: var(--light-grey);
-    padding: 0.6rem 0.6rem;
-    border-radius: 0.5rem;
-    width: 100%;
 }
 
 .contenedor-texto-signin {
@@ -110,7 +113,7 @@ input {
     margin-right: 1.4rem;
 }
 
-h1 {
+.titulo-signin {
     font-family: var(--poppins);
     font-size: 2.2rem;
     font-weight: 600;

@@ -75,7 +75,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 88%;       
+    width: 89%;       
 
     .btn-login-home {
         background-color: var(--light-grey);

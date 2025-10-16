@@ -25,8 +25,8 @@
 
 .contenedor-blanco-error {
     background-color: var(--white);
-    width: 18rem;
-    height: 18rem;
+    width: 25rem;
+    height: 25rem;
     border-radius: 0.5rem;
     box-shadow: 3px 3px 10px 10px hsla(0, 0%, 0%, 0.2);
 
