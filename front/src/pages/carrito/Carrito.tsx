@@ -5,7 +5,6 @@ import carrito from '../../assets/carrito.jpg';
 import perfil from '../../assets/perfil.png';
 import arepas from '../../assets/arepas_plato.png';
 
-
 const Carrito = () => {
   return (
     <div className="contenedor-carrito">
