@@ -18,45 +18,6 @@
   align-items: center;
 }
 
-.navbar-carrito {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 40px;
-  background-color: #fff;
-}
-
-.logo-container-carrito {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo-carrito {
-  width: 65px;
-  height: 65px;
-}
-
-.nombre-carrito {
-  font-family: 'Poppins', sans-serif;
-  color: #5a6530;
-  font-size: 22px;
-  font-weight: 600;
-}
-
-.iconos-carrito {
-  display: flex;
-  align-items: center;
-  gap: 25px;
-}
-
-.icono-carrito {
-  width: 45px;
-  height: 45px;
-  cursor: pointer;
-}
-
 .contenido-carrito {
   width: 80%;
   max-width: 900px;
@@ -67,7 +28,7 @@
 
 .contenido-carrito h2 {
   text-align: center;
-  color: #5a6530;
+  color: var(--dark-green);
   margin-bottom: 40px;
 }
 
@@ -154,11 +115,31 @@
 }
 
 .btn-regresar-carrito {
-  background-color: #c3cf9b;
-  color: #3c4320;
+  background-color: var(--white);
+  color: var(--dark-green);
 }
 
 .btn-comprar-carrito {
   background-color: #5a6530;
   color: #fff;
+}
+
+.btn-comprar-carrito:hover {
+  background-color: var(--light-green);
+  color: var(--dark-green);
+}
+
+.btn-regresar-carrito:hover {
+  background-color: var(--grey-hover);
+  color: var(--dark-green);
+}
+
+.btn-mas, .btn-menos {
+    background-color: var(--white);
+    color: var(--dark-green);
+}
+
+.btn-mas:hover, .btn-menos:hover {
+  background-color: var(--grey-hover);
+  color: var(--dark-green);
 }

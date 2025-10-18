@@ -29,7 +29,7 @@ const Pago = () => {
             <span>Descuento</span>
             <span>COP 0</span>
           </div>
-          <div className="fila total-pago">
+          <div className="fila-total-pago">
             <span>Total</span>
             <span> COP 10,000</span>
           </div>

@@ -73,3 +73,8 @@ img {
     font-size: 6rem;
     font-weight: 600;
 }
+
+.btn-volver-error:hover {
+    background-color: var(--light-green);
+    color: var(--dark-green);
+}

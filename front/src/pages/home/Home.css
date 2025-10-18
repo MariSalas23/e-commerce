@@ -99,3 +99,13 @@
         font-weight: 600;
     }
 }
+
+.btn-login-home:hover {
+  background-color: var(--light-green);
+  color: var(--dark-green);
+}
+
+.btn-signin-home:hover {
+  background-color: var(--light-green);
+  color: var(--dark-green);
+}

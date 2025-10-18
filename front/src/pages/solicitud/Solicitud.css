@@ -71,3 +71,8 @@ img {
     font-size: 1.8rem;
     font-weight: 600;
 }
+
+.btn-volver-solicitud:hover {
+    background-color: var(--light-green);
+    color: var(--dark-green);
+}

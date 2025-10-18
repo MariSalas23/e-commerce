@@ -44,9 +44,9 @@ const Carrito = () => {
             <span className="precio-carrito">COP 5,000</span>
 
             <div className="cantidad-carrito">
-              <button>-</button>
+              <button className="btn-menos">-</button>
               <span>1</span>
-              <button>+</button>
+              <button className="btn-mas">+</button>
             </div>
 
             <span className="total-carrito">COP 5,000</span>

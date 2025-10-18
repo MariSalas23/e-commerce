@@ -106,7 +106,7 @@
     }
 
     .btn-regresar-perfil {
-        background-color: var(--light-green);
+        background-color: var(--light-grey);
         color: var(--dark-green);
         border: 0;
         padding: 0.6rem 0.9rem;
@@ -117,7 +117,7 @@
     }
 
     .btn-logout {
-        background-color: var(--light-grey);
+        background-color: var(--light-green);
         color: var(--dark-green);
         border: 0;
         padding: 0.6rem 0.9rem;
@@ -126,4 +126,19 @@
         font-size: 0.88rem;
         font-weight: 600;
     }
+}
+
+.btn-logout:hover {
+  background-color: var(--grey-hover);
+  color: var(--dark-green);
+}
+
+.btn-regresar-perfil:hover {
+  background-color: var(--grey-hover);
+  color: var(--dark-green);
+}
+
+.btn-historial:hover {
+    background-color: var(--grey-hover);
+    color: var(--dark-green);
 }

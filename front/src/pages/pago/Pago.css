@@ -98,6 +98,12 @@ body, input, button {
   justify-content: space-between;
 }
 
+.fila-total-pago {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
 .total-pago {
   font-weight: 700;
   font-size: 1.1rem;
@@ -169,8 +175,7 @@ body, input, button {
 }
 
 .btn-regresar-pago:hover {
-  background-color: var(--light-green);
-  color: var(--black);
+  background-color: var(--grey-hover);
 }
 
 .btn-pagar-pago {

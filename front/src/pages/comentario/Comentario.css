@@ -82,12 +82,12 @@
 }
 
 .btn-regresar-comentario {
-  background-color: #b4c48f;
+  background-color: var(--light-grey);
   color: var(--dark-green);
 }
 
 .btn-regresar-comentario:hover {
-  background-color: #a1b27b;
+  background-color: var(--grey-hover);
   transform: scale(1.02);
 }
 
@@ -98,6 +98,6 @@
 
 .btn-publicar-comentario:hover {
   background-color: var(--light-green);
-  color: var(--black);
+  color: var(--dark-green);
   transform: scale(1.02);
 }

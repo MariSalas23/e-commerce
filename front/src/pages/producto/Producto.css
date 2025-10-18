@@ -86,7 +86,7 @@
     width: 100%;
     height: 19.5rem;
     border-radius: 0.5rem;
-    padding: 2rem;
+    padding: 2.5rem;
     overflow-y: scroll;
 }
 
@@ -104,11 +104,11 @@
     width: 100%;
 }
 
-.btn-regresar-signin {
+.btn-regresar-producto {
     background-color: var(--white);
     color: var(--dark-green);
     border: 0;
-    padding: 0.6rem 1.3rem;
+    padding: 0.6rem 1.5rem;
     border-radius: 0.5rem;
     font-family: var(--poppins);
     font-size: 0.88rem;
@@ -119,7 +119,7 @@
     background-color: var(--light-green);
     color: var(--dark-green);
     border: 0;
-    padding: 0.6rem 1.3rem;
+    padding: 0.6rem 1.5rem;
     border-radius: 0.5rem;
     font-family: var(--poppins);
     font-size: 0.88rem;
@@ -130,7 +130,7 @@
     background-color: var(--dark-green);
     color: var(--white);
     border: 0;
-    padding: 0.6rem 1.3rem;
+    padding: 0.6rem 1.5rem;
     border-radius: 0.5rem;
     font-family: var(--poppins);
     font-size: 0.88rem;
@@ -147,4 +147,9 @@
 .usuario-comentario-producto {
     font-weight: 500;
     font-size: 1.5rem;
+}
+
+.btn-regresar-producto:hover, .btn-comentar-producto:hover, .btn-carrito-producto:hover {
+  background-color: var(--grey-hover);
+  color: var(--dark-green);
 }

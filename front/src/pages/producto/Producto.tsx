@@ -40,10 +40,11 @@ const Producto = () => {
                 <div className="comentario-individual-producto">
                     <h2 className="usuario-comentario-producto">Usuario</h2>
                     <p className="comentario-producto">Comentario acerca del producto</p>
+                    <div className="linea-verde"></div>
                 </div>
             </div>
             <div className="botones-producto">
-                <button className="btn-regresar-signin">Regresar</button>
+                <button className="btn-regresar-producto">Regresar</button>
                 <button className="btn-comentar-producto">Comentar</button>
                 <button className="btn-carrito-producto">Añadir al carrito</button>
             </div>
