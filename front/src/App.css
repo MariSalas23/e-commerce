@@ -13,3 +13,46 @@
   --red: hsl(0,100%,60%);
   --light-red: hsl(0,100%,93%);
 }
+
+.navbar-carrito {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.8rem;
+  padding-top: 0.8rem;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  background-color: var(--white);
+}
+
+.logo-container-carrito {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.logo-carrito {
+  width: 9%;
+  height: auto;
+}
+
+.nombre-carrito {
+  font-family: 'Poppins', sans-serif;
+  color: var(--dark-green);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.iconos-carrito {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.icono-carrito {
+  width: 5%;
+  height: auto;
+  cursor: pointer;
+}
