@@ -4,6 +4,7 @@ import imgCesta from '../../assets/cesta.png';
 import logo_blanco from '../../assets/logo_blanco.jpg';
 import carrito from '../../assets/carrito.jpg';
 import perfil from '../../assets/perfil.png';
+import imgProducto from '../../assets/productoejemplo.png';
 
 const Tienda = () => {
   return (
@@ -19,22 +20,46 @@ const Tienda = () => {
               </div>
         </header>
         <img src= {imgCesta} alt="Arepas" className="arepas-intro" />
-      <div className="contenedor-columnas-admin">
-        <div className="control-usuarios">
-          <h1>Control de usuarios</h1>
-          <h2>Validación de usuarios nuevos</h2>
-          <div className="usuario-nuevo">
-            <button className="usuario-rechazar">Rechazar</button>
-            <button className="usuario-aceptar">Aceptar</button>
+      <div className="contenedor-columnas-tienda">
+        <div className="contenedor-cupones">
+          <h1 className="titulo-cupones">Cupones</h1>
+          <h2 className="subtitulo-cupones">Cupones disponibles</h2>
+          <div className="contenedor-cupon">
+            <p className="titulo-cupon">Cupón para usuarios nuevos</p>
+            <p className="subtitulo-cupon">En tu primera compra, recibe el 10% de descuento en Arepabuelas de la esquina.</p>
+            <p className="codigo-cupon"><span className="titulo-codigo">Código:</span> ArepabuelaNew</p>
           </div>
         </div>
-        <div className="control-productos">
-          <h1>Control de usuarios</h1>
-          <h2>Validación de usuarios nuevos</h2>
-          <div className="producto-nuevo">
-
+        <div className="productos-tienda">
+            <h1 className="titulo-productos-tienda">Productos</h1>
+            <h2 className="subtitulo-productos-tienda">Productos disponibles para compra</h2>
+          <div className="espacio-productos-tienda">
+              <div className="producto-tienda">
+                <img src={imgProducto} alt="Producto" className="imagen-producto-tienda" />
+                <div className="texto-producto-tienda">
+                  <p className="titulo-producto-tienda">Arepa Boyacense</p>
+                  <p className="precio-tienda">5,000 COP</p>
+                </div>
+                <button className="btn-informacion">Más información</button>
+              </div>
+              <div className="producto-tienda">
+                <img src={imgProducto} alt="Producto" className="imagen-producto-tienda" />
+                <div className="texto-producto-tienda">
+                  <p className="titulo-producto-tienda">Arepa Boyacense</p>
+                  <p className="precio-tienda">5,000 COP</p>
+                </div>
+                <button className="btn-informacion">Más información</button>
+              </div>
+              <div className="producto-tienda">
+                <img src={imgProducto} alt="Producto" className="imagen-producto-tienda" />
+                <div className="texto-producto-tienda">
+                  <p className="titulo-producto-tienda">Arepa Boyacense</p>
+                  <p className="precio-tienda">5,000 COP</p>
+                </div>
+                <button className="btn-informacion">Más información</button>
+              </div>
+              
           </div>
-          <button className="">Crear</button>
         </div>
       </div>
     </div>

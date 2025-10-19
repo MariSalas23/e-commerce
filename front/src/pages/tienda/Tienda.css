@@ -8,3 +8,154 @@
     text-align: center;
     box-sizing: border-box;
 }
+
+.contenedor-tienda {
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--white);
+}
+
+.contenedor-columnas-tienda {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    background-color: var(--light-grey);
+    height: 100%;
+}
+
+.contenedor-cupones {
+    width: 100%;
+    background-color: var(--white);
+    height: 100%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 1rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+
+.productos-tienda {
+    width: 100%;
+    background-color: var(--light-grey);
+    height: 100%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 1rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+
+.contenedor-cupon {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 1rem;
+    background-color: var(--dark-green);
+    width: auto;
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 3px 3px 10px 10px hsla(0, 0%, 0%, 0.1);
+    padding: 2rem;
+    margin-top: 1rem;
+}
+
+.titulo-cupon, .subtitulo-cupon, .titulo-codigo, .codigo-cupon {
+    color: var(--white);
+}
+
+.titulo-cupones, .titulo-productos-tienda {
+    color: var(--black);
+    font-weight: 500;
+    font-size: 1.8rem;
+}
+
+.subtitulo-cupones, .subtitulo-productos-tienda {
+    color: var(--dark-green);
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+
+.titulo-codigo, .titulo-cupon {
+    font-weight: 600;
+}
+
+.btn-crear-tienda {
+    background-color: var(--dark-green);
+    color: var(--white);
+    border: 0;
+    padding: 0.6rem 0.2rem;
+    border-radius: 0.5rem;
+    font-family: var(--poppins);
+    font-size: 0.88rem;
+    font-weight: 600;
+    width: 6rem;
+    margin-top: 1rem;
+}
+
+.btn-crear-tienda:hover {
+    background-color: var(--light-green);
+    color: var(--dark-green);
+}
+
+.producto-tienda {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 1rem;
+    background-color: var(--white);
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 3px 3px 10px 10px hsla(0, 0%, 0%, 0.1);
+    padding: 1rem;
+    width: 12rem;               
+    flex: 0 0 12rem;
+    margin-top: 1rem; 
+
+    img {
+        width: 100%;
+        height: 100%;
+        border-radius: 0.5rem;
+    }
+}
+
+.espacio-productos-tienda {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
+.btn-informacion {
+    font-size: 0.8rem;
+    color: var(--dark-green);
+    background-color: var(--light-grey);
+    border: 0;
+    padding: 0.6rem 0.2rem;
+    border-radius: 0.5rem;
+    font-family: var(--poppins);
+    font-size: 0.88rem;
+    font-weight: 600;
+    width: 100%;
+}
+
+.btn-informacion:hover {
+    background-color: var(--grey-hover);
+    color: var(--dark-green);
+}
+
+.titulo-producto-tienda {
+    font-weight: 600;
+}
+
+.precio-tienda {
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: var(--light-green);
+}
