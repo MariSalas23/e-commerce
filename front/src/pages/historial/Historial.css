@@ -78,3 +78,43 @@
   border: 0.5px solid var(--light-green);
   margin: 0.8rem 0 0.6rem 0;
 }
+
+.btn-regresar-historial {
+  background-color: var(--dark-green);
+  color: var(--white);
+  border: none;
+  padding: 0.6rem 1.6rem;
+  border-radius: 0.4rem;
+  font-family: var(--poppins);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  margin-top: 0.8rem; 
+}
+
+.btn-regresar-historial:hover {
+  background-color: var(--light-green); 
+  color: var(--dark-green); 
+  transform: scale(1.02);
+}
+
+.contenedor-pedidos {
+  max-height: 11rem; 
+  overflow-y: auto; 
+  width: 100%;
+  padding-right: 0.5rem; 
+}
+
+.contenedor-pedidos::-webkit-scrollbar {
+  width: 6px;
+}
+
+.contenedor-pedidos::-webkit-scrollbar-thumb {
+  background-color: var(--light-green);
+  border-radius: 3px;
+}
+
+.contenedor-pedidos::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
