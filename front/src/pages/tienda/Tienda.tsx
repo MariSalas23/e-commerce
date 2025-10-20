@@ -42,6 +42,30 @@ const Tienda = () => {
                 </div>
                 <button className="btn-informacion">Más información</button>
               </div>
+              <div className="producto-tienda">
+                <img src={imgProducto} alt="Producto" className="imagen-producto-tienda" />
+                <div className="texto-producto-tienda">
+                  <p className="titulo-producto-tienda">Arepa Boyacense</p>
+                  <p className="precio-tienda">5,000 COP</p>
+                </div>
+                <button className="btn-informacion">Más información</button>
+              </div>
+              <div className="producto-tienda">
+                <img src={imgProducto} alt="Producto" className="imagen-producto-tienda" />
+                <div className="texto-producto-tienda">
+                  <p className="titulo-producto-tienda">Arepa Boyacense</p>
+                  <p className="precio-tienda">5,000 COP</p>
+                </div>
+                <button className="btn-informacion">Más información</button>
+              </div>
+              <div className="producto-tienda">
+                <img src={imgProducto} alt="Producto" className="imagen-producto-tienda" />
+                <div className="texto-producto-tienda">
+                  <p className="titulo-producto-tienda">Arepa Boyacense</p>
+                  <p className="precio-tienda">5,000 COP</p>
+                </div>
+                <button className="btn-informacion">Más información</button>
+              </div>
           </div>
         </div>
       </div>

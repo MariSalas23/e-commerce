@@ -10,7 +10,7 @@ const Error = () => {
             <img src={imgMal} alt="Mal" />
             <div className="contenedor-texto-error">
                 <h1 className="error-texto">404</h1>
-                <p>¡Error! Página no encontrada</p>
+                <p className="mensaje-error">¡Error! Página no encontrada</p>
             </div>
             <button className="btn-volver-error">Página principal</button>
         </div>

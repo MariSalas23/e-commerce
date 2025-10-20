@@ -26,7 +26,7 @@
 .contenedor-blanco-error {
     background-color: var(--white);
     width: 25rem;
-    height: 25rem;
+    height: 26rem;
     border-radius: 0.5rem;
     box-shadow: 3px 3px 10px 10px hsla(0, 0%, 0%, 0.2);
 
@@ -35,7 +35,7 @@
     justify-content: space-between;
     align-items: stretch;  
     padding: 4rem; 
-    gap: 1rem;    
+    gap: 0.8rem;    
     
     .contenedor-texto-error {
         display: flex;
@@ -77,4 +77,8 @@ img {
 .btn-volver-error:hover {
     background-color: var(--light-green);
     color: var(--dark-green);
+}
+
+.mensaje-error {
+    font-size: 0.85rem;
 }
