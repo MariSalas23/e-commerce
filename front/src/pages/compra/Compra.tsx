@@ -1,4 +1,3 @@
-import React from 'react';
 import './Compra.css';
 import imgBien from '../../assets/bien.png';
 import imgFondo from '../../assets/blur.png';

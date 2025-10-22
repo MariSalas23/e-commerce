@@ -139,6 +139,7 @@ button {
 }
 
 .btn-login-login:hover {
+  color: var(--dark-green);
   background-color: var(--light-green);
   transform: scale(1.02);
 }

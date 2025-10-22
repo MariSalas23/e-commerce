@@ -1,4 +1,3 @@
-import React from 'react';
 import './Admin.css';
 import imgCesta from '../../assets/cesta.png';
 import imgPerfil from '../../assets/perfil.png';

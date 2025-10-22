@@ -1,4 +1,3 @@
-import React from 'react';
 import './Comentario.css';
 
 const Comentario = () => {

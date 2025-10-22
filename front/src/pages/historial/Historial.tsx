@@ -1,4 +1,3 @@
-import React from 'react';
 import './Historial.css';
 import imgArps from '../../assets/arepas.png';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import './Error.css';
 import imgMal from '../../assets/mal.png';
 import imgFondo from '../../assets/blur.png';

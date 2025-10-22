@@ -1,4 +1,3 @@
-import React from 'react';
 import './Producto.css';
 import imgProducto from '../../assets/productoejemplo.png';
 import logo_blanco from '../../assets/logo_blanco.jpg';

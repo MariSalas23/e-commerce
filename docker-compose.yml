@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: ecommerce_db
+    environment:
+      POSTGRES_DB: ecommerce
+      POSTGRES_USER: ecommerce
+      POSTGRES_PASSWORD: ecommerce
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./api/init.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+    networks: [appnet]
+
+  api:
+    build:
+      context: ./api
+    container_name: ecommerce_api
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      JWT_SECRET: supersecret_dev_only
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ecommerce
+      DB_USER: ecommerce
+      DB_PASSWORD: ecommerce
+      COOKIE_NAME: access_token
+      COOKIE_SECURE: "true"
+      COOKIE_SAMESITE: strict
+      COOKIE_MAX_AGE_MS: 2592000000
+      ARGON2_TIME_COST: 3
+      ARGON2_MEMORY_COST: 65536
+      ARGON2_PARALLELISM: 1
+    depends_on: [db]
+    networks: [appnet]
+
+  web:
+    build:
+      context: ./nginx
+    container_name: ecommerce_web
+    depends_on: [api]
+    volumes:
+      - ./front/dist:/usr/share/nginx/html:ro
+    ports:
+      - "443:443"
+    networks: [appnet]
+
+volumes:
+  db_data:
+
+networks:
+  appnet:
+    driver: bridge

@@ -1,4 +1,3 @@
-import React from 'react';
 import './Carrito.css';
 import logo_blanco from '../../assets/logo_blanco.jpg';
 import carrito from '../../assets/carrito.jpg';

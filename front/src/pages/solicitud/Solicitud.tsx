@@ -1,4 +1,3 @@
-import React from 'react';
 import './Solicitud.css';
 import imgBien from '../../assets/bien.png';
 import imgFondo from '../../assets/blur.png';

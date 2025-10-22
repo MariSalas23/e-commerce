@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import AuthProvider, { AuthIsNotSignedIn, AuthIsSignedIn } from "./contexts/AuthContext";
+
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Signin from "./pages/signin/Signin";
@@ -17,24 +19,117 @@ import "./App.css";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/solicitud" element={<Solicitud />} />
-        <Route path="/compra" element={<Compra />} />
-        <Route path="/comentario" element={<Comentario />} />
-        <Route path="/perfil" element={<Perfil />} />
-        <Route path="/historial" element={<Historial />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/carrito" element={<Carrito />} />
-        <Route path="/pago" element={<Pago />} />
-        <Route path="/producto" element={<Producto />} />
-        <Route path="/tienda" element={<Tienda />} />
-        <Route path="*" element={<Error />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          {/* Públicas */}
+          <Route path="/" element={<Home />} />
+
+          {/* Solo si NO está autenticado (con fallback para evitar pantalla blanca) */}
+          <Route
+            path="/login"
+            element={
+              <AuthIsNotSignedIn fallback={<Login />}>
+                <Login />
+              </AuthIsNotSignedIn>
+            }
+          />
+          <Route
+            path="/signin"
+            element={
+              <AuthIsNotSignedIn fallback={<Signin />}>
+                <Signin />
+              </AuthIsNotSignedIn>
+            }
+          />
+
+          {/* Protegidas */}
+          <Route
+            path="/tienda"
+            element={
+              <AuthIsSignedIn>
+                <Tienda />
+              </AuthIsSignedIn>
+            }
+          />
+          <Route
+            path="/producto"
+            element={
+              <AuthIsSignedIn>
+                <Producto />
+              </AuthIsSignedIn>
+            }
+          />
+          <Route
+            path="/perfil"
+            element={
+              <AuthIsSignedIn>
+                <Perfil />
+              </AuthIsSignedIn>
+            }
+          />
+          <Route
+            path="/historial"
+            element={
+              <AuthIsSignedIn>
+                <Historial />
+              </AuthIsSignedIn>
+            }
+          />
+          <Route
+            path="/carrito"
+            element={
+              <AuthIsSignedIn>
+                <Carrito />
+              </AuthIsSignedIn>
+            }
+          />
+          <Route
+            path="/pago"
+            element={
+              <AuthIsSignedIn>
+                <Pago />
+              </AuthIsSignedIn>
+            }
+          />
+          <Route
+            path="/solicitud"
+            element={
+              <AuthIsSignedIn>
+                <Solicitud />
+              </AuthIsSignedIn>
+            }
+          />
+          <Route
+            path="/compra"
+            element={
+              <AuthIsSignedIn>
+                <Compra />
+              </AuthIsSignedIn>
+            }
+          />
+          <Route
+            path="/comentario"
+            element={
+              <AuthIsSignedIn>
+                <Comentario />
+              </AuthIsSignedIn>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <AuthIsSignedIn>
+                <Admin />
+              </AuthIsSignedIn>
+            }
+          />
+
+          {/* 404 */}
+          <Route path="*" element={<Error />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
