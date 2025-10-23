@@ -3,11 +3,12 @@ import './Login.css';
 import imgUsr from '../../assets/user.png';
 import { api } from '../../api/api';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+  const { refresh } = useAuth(); 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (loading) return;
@@ -20,16 +21,17 @@ const Login = () => {
     try {
       const res = await api.post('/auth/login', { email, password });
 
-      // si la API devuelve error con JSON { error: "..." }
       if (res.status >= 400) {
         const err = (res.data as any)?.error;
         throw new Error(typeof err === 'string' ? err : 'Error al iniciar sesión');
       }
 
+      // Sincroniza el AuthContext con la cookie recién creada
+      await refresh();
+
       // Ir a tienda
       navigate('/tienda');
     } catch (err: any) {
-      // normaliza mensaje (axios o red)
       const msg =
         err?.response?.data?.error ??
         err?.message ??

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import AuthProvider, { AuthIsNotSignedIn, AuthIsSignedIn } from "./contexts/AuthContext";
 
 import Home from "./pages/home/Home";
@@ -43,11 +43,11 @@ function App() {
             }
           />
 
-          {/* Protegidas */}
+          {/* Protegidas — si no hay sesión, redirige a "/" */}
           <Route
             path="/tienda"
             element={
-              <AuthIsSignedIn>
+              <AuthIsSignedIn fallback={<Navigate to="/" replace />}>
                 <Tienda />
               </AuthIsSignedIn>
             }
@@ -55,7 +55,7 @@ function App() {
           <Route
             path="/producto"
             element={
-              <AuthIsSignedIn>
+              <AuthIsSignedIn fallback={<Navigate to="/" replace />}>
                 <Producto />
               </AuthIsSignedIn>
             }
@@ -63,7 +63,7 @@ function App() {
           <Route
             path="/perfil"
             element={
-              <AuthIsSignedIn>
+              <AuthIsSignedIn fallback={<Navigate to="/" replace />}>
                 <Perfil />
               </AuthIsSignedIn>
             }
@@ -71,7 +71,7 @@ function App() {
           <Route
             path="/historial"
             element={
-              <AuthIsSignedIn>
+              <AuthIsSignedIn fallback={<Navigate to="/" replace />}>
                 <Historial />
               </AuthIsSignedIn>
             }
@@ -79,7 +79,7 @@ function App() {
           <Route
             path="/carrito"
             element={
-              <AuthIsSignedIn>
+              <AuthIsSignedIn fallback={<Navigate to="/" replace />}>
                 <Carrito />
               </AuthIsSignedIn>
             }
@@ -87,7 +87,7 @@ function App() {
           <Route
             path="/pago"
             element={
-              <AuthIsSignedIn>
+              <AuthIsSignedIn fallback={<Navigate to="/" replace />}>
                 <Pago />
               </AuthIsSignedIn>
             }
@@ -95,7 +95,7 @@ function App() {
           <Route
             path="/solicitud"
             element={
-              <AuthIsSignedIn>
+              <AuthIsSignedIn fallback={<Navigate to="/" replace />}>
                 <Solicitud />
               </AuthIsSignedIn>
             }
@@ -103,7 +103,7 @@ function App() {
           <Route
             path="/compra"
             element={
-              <AuthIsSignedIn>
+              <AuthIsSignedIn fallback={<Navigate to="/" replace />}>
                 <Compra />
               </AuthIsSignedIn>
             }
@@ -111,7 +111,7 @@ function App() {
           <Route
             path="/comentario"
             element={
-              <AuthIsSignedIn>
+              <AuthIsSignedIn fallback={<Navigate to="/" replace />}>
                 <Comentario />
               </AuthIsSignedIn>
             }
@@ -119,7 +119,7 @@ function App() {
           <Route
             path="/admin"
             element={
-              <AuthIsSignedIn>
+              <AuthIsSignedIn fallback={<Navigate to="/" replace />}>
                 <Admin />
               </AuthIsSignedIn>
             }

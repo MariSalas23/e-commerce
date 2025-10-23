@@ -3,9 +3,9 @@ import {
   useContext,
   useEffect,
   useState,
-  type ReactNode, // 👈 esta es la forma correcta en TS moderno
+  type ReactNode, 
 } from "react";
-import { api } from "../api/api"; // axios con baseURL = /api y withCredentials=true
+import { api } from "../api/api";
 
 type User = {
   id: number;
