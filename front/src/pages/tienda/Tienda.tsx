@@ -17,7 +17,13 @@ const Tienda = () => {
           <h1 className="nombre-carrito">Arepabuelas</h1>
         </div>
         <div className="iconos-carrito">
-          <img src={carrito} alt="Carrito" className="icono-carrito" />
+          <img
+            src={carrito}
+            alt="Carrito"
+            className="icono-carrito"
+            onClick={() => navigate('/carrito')} 
+            style={{ cursor: 'pointer' }}
+            />
           <img
             src={perfil}
             alt="Perfil"

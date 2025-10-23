@@ -1,7 +1,9 @@
 import './Historial.css';
 import imgArps from '../../assets/arepas.png';
+import { useNavigate } from 'react-router-dom';
 
 const Historial = () => {
+    const navigate = useNavigate();
     const pedidos = [
         { producto: 'Arepa de queso', cantidad: '3', total: '$9.000', fecha: '2025-10-19' },
         { producto: 'Arepa de choclo', cantidad: '2', total: '$8.000', fecha: '2025-10-18' },
@@ -34,7 +36,7 @@ const Historial = () => {
                         ))}
                     </div>
 
-                    <button className="btn-regresar-historial">Regresar</button>
+                    <button onClick={() => navigate('/perfil')} className="btn-regresar-historial">Regresar</button>
                 </div>
             </div>
         </div>

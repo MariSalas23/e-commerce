@@ -3,8 +3,11 @@ import logo_blanco from '../../assets/logo_blanco.jpg';
 import carrito from '../../assets/carrito.jpg';
 import perfil from '../../assets/perfil.png';
 import arepas from '../../assets/arepas_plato.png';
+import { useNavigate } from 'react-router-dom';
 
 const Carrito = () => {
+  const navigate = useNavigate(); 
+
   return (
     <div className="contenedor-carrito">
       <header className="navbar-carrito">
@@ -14,8 +17,20 @@ const Carrito = () => {
         </div>
 
         <div className="iconos-carrito">
-          <img src= {carrito} alt="Carrito" className="icono-carrito" />
-          <img src={perfil} alt="Perfil" className="icono-carrito " />
+          <img
+            src={carrito}
+            alt="Carrito"
+            className="icono-carrito"
+            onClick={() => navigate('/carrito')} 
+            style={{ cursor: 'pointer' }}
+            />
+          <img
+            src={perfil}
+            alt="Perfil"
+            className="icono-carrito"
+            onClick={() => navigate('/perfil')} 
+            style={{ cursor: 'pointer' }}
+          />
         </div>
       </header>
 
@@ -52,8 +67,8 @@ const Carrito = () => {
         </div>
 
         <div className="botones-carrito">
-          <button className="btn-regresar-carrito">Regresar</button>
-          <button className="btn-comprar-carrito">Comprar</button>
+          <button onClick={() => navigate('/tienda')} className="btn-regresar-carrito">Regresar</button>
+          <button onClick={() => navigate('/pago')} className="btn-comprar-carrito">Comprar</button>
         </div>
       </main>
     </div>

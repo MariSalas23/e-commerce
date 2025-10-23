@@ -34,9 +34,9 @@ const Perfil = () => {
           </div>
         
          <div className="botones-perfil">
-              <button className="btn-historial">Historial</button>
+              <button onClick={() => navigate('/historial')} className="btn-historial">Historial</button>
               <div className="botones-fila">
-                <button className="btn-regresar-perfil">Regresar</button>
+                <button onClick={() => navigate('/tienda')} className="btn-regresar-perfil">Regresar</button>
                 <button
                   className="btn-logout"
                   onClick={handleLogout}

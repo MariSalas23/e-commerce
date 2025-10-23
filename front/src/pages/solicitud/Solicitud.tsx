@@ -1,8 +1,11 @@
 import './Solicitud.css';
 import imgBien from '../../assets/bien.png';
 import imgFondo from '../../assets/blur.png';
+import { useNavigate } from 'react-router-dom';
 
 const Solicitud = () => {
+  const navigate = useNavigate(); 
+
   return (
     <div className="contenedor-solicitud" style={{ backgroundImage: `url(${imgFondo})` }}>
         <div className="contenedor-blanco-solicitud">
@@ -11,7 +14,7 @@ const Solicitud = () => {
                 <h1 className="titulo-solicitud">¡Solicitud exitosa!</h1>
                 <p  className="mensaje-solicitud">Vuelve a la página principal para ingresar las credenciales más tarde</p>
             </div>
-            <button className="btn-volver-solicitud">Volver a la página principal</button>
+            <button onClick={() => navigate('/')} className="btn-volver-solicitud">Volver a la página principal</button>
         </div>
     </div>
   );

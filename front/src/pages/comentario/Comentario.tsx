@@ -1,6 +1,9 @@
 import './Comentario.css';
+import { useNavigate } from 'react-router-dom';
 
 const Comentario = () => {
+    const navigate = useNavigate();
+
     return (
         <div className='contenedor-comentario-login'>
             <div className='contenedor-blanco-comentario'>
@@ -12,7 +15,7 @@ const Comentario = () => {
                     ></textarea>
 
                     <div className="botones-comentario-login">
-                        <button type="button" className="btn-regresar-comentario">Regresar</button>
+                        <button onClick={() => navigate('/producto')} type="button" className="btn-regresar-comentario">Regresar</button>
                         <button type="submit" className="btn-publicar-comentario">Publicar</button>
                     </div>
                 </form>

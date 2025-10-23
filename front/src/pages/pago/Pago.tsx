@@ -1,6 +1,9 @@
 import './Pago.css';
+import { useNavigate } from 'react-router-dom';
 
 const Pago = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="contenedor-pago">
       <div className="contenedor-informacion-pago">
@@ -57,8 +60,8 @@ const Pago = () => {
         </div>
 
         <div className="botones-pago">
-          <button className="btn-regresar-pago">Regresar</button>
-          <button className="btn-pagar-pago">Pagar</button>
+          <button onClick={() => navigate('/carrito')} className="btn-regresar-pago">Regresar</button>
+          <button onClick={() => navigate('/compra')} className="btn-pagar-pago">Pagar</button>
         </div>
       </div>
     </div>

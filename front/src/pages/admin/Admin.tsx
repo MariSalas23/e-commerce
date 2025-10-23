@@ -5,8 +5,11 @@ import imgImagen from '../../assets/imagen.png';
 import logo_blanco from '../../assets/logo_blanco.jpg';
 import carrito from '../../assets/carrito.jpg';
 import perfil from '../../assets/perfil.png';
+import { useNavigate } from 'react-router-dom';
 
 const Admin = () => {
+  const navigate = useNavigate(); 
+
   return (
     <div className="contenedor-admin">
       <header className="navbar-carrito">
@@ -15,8 +18,20 @@ const Admin = () => {
           <h1 className="nombre-carrito">Arepabuelas</h1>
         </div>
         <div className="iconos-carrito">
-          <img src={carrito} alt="Carrito" className="icono-carrito" />
-          <img src={perfil} alt="Perfil" className="icono-carrito " />
+          <img
+            src={carrito}
+            alt="Carrito"
+            className="icono-carrito"
+            onClick={() => navigate('/carrito')} 
+            style={{ cursor: 'pointer' }}
+            />
+          <img
+            src={perfil}
+            alt="Perfil"
+            className="icono-carrito"
+            onClick={() => navigate('/perfil')} 
+            style={{ cursor: 'pointer' }}
+          />
         </div>
       </header>
 

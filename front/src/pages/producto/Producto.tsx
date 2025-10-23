@@ -3,10 +3,12 @@ import imgProducto from '../../assets/productoejemplo.png';
 import logo_blanco from '../../assets/logo_blanco.jpg';
 import carrito from '../../assets/carrito.jpg';
 import perfil from '../../assets/perfil.png';
+import { useNavigate } from 'react-router-dom';
 
 const Producto = () => {
-  return (
+const navigate = useNavigate(); 
 
+  return (
     <div className="contenedor-producto-header">
         <header className="navbar-carrito">
             <div className="logo-container-carrito">
@@ -14,8 +16,20 @@ const Producto = () => {
                 <h1 className="nombre-carrito">Arepabuelas</h1>
             </div>
             <div className="iconos-carrito">
-                <img src= {carrito} alt="Carrito" className="icono-carrito" />
-                <img src={perfil} alt="Perfil" className="icono-carrito " />
+                <img
+                    src={carrito}
+                    alt="Carrito"
+                    className="icono-carrito"
+                    onClick={() => navigate('/carrito')} 
+                    style={{ cursor: 'pointer' }}
+                    />
+                <img
+                    src={perfil}
+                    alt="Perfil"
+                    className="icono-carrito"
+                    onClick={() => navigate('/perfil')} 
+                    style={{ cursor: 'pointer' }}
+                />
             </div>
         </header>
       <div className="contenedor-producto">
@@ -43,8 +57,8 @@ const Producto = () => {
                 </div>
             </div>
             <div className="botones-producto">
-                <button className="btn-regresar-producto">Regresar</button>
-                <button className="btn-comentar-producto">Comentar</button>
+                <button onClick={() => navigate('/tienda')} className="btn-regresar-producto">Regresar</button>
+                <button onClick={() => navigate('/comentario')} className="btn-comentar-producto">Comentar</button>
                 <button className="btn-carrito-producto">Añadir al carrito</button>
             </div>
         </div>
