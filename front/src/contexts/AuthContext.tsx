@@ -3,7 +3,7 @@ import {
   useContext,
   useEffect,
   useState,
-  type ReactNode, 
+  type ReactNode,
 } from "react";
 import { api } from "../api/api";
 
@@ -17,6 +17,7 @@ type AuthContextType = {
   user: User | null;
   loading: boolean;
   isSignedIn: boolean;
+  isAdmin: boolean;
   refresh: () => Promise<void>;
   signOut: () => Promise<void>;
 };
@@ -28,9 +29,9 @@ function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const refresh = async () => {
+    setLoading(true);
     try {
-      const res = await api.get("/auth/me"); // cookie HttpOnly llega sola
-      // Tu API responde { ok: true, user }
+      const res = await api.get("/auth/me"); // cookie HttpOnly via withCredentials
       if (res?.data?.ok && res?.data?.user) setUser(res.data.user as User);
       else setUser(null);
     } catch {
@@ -44,28 +45,33 @@ function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await api.post("/auth/logout");
     } catch {
-      // ignoramos errores de red aquí
+      // ignore error
     } finally {
       setUser(null);
     }
   };
 
-  // Cargar sesión al montar
   useEffect(() => {
     refresh();
   }, []);
 
-  // Revalidar al volver el foco a la pestaña (útil si se inicia/cierra sesión en otra pestaña)
   useEffect(() => {
     const onFocus = () => refresh();
     window.addEventListener("focus", onFocus);
     return () => window.removeEventListener("focus", onFocus);
   }, []);
 
+  // Lógica de admin (puedes dejar solo por email si quieres)
+  const adminEmails = ["administrador@adminarepabuela.com"]; // en minúsculas
+  const isAdmin =
+    !!user &&
+    (adminEmails.includes(user.email.toLowerCase()));
+
   const value: AuthContextType = {
     user,
     loading,
     isSignedIn: !!user,
+    isAdmin,
     refresh,
     signOut,
   };
@@ -73,14 +79,16 @@ function AuthProvider({ children }: { children: ReactNode }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-// Hook opcional por si lo necesitas en páginas
+// Hook para consumir el contexto
 export function useAuth(): AuthContextType {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error("useAuth must be used within <AuthProvider>");
   return ctx;
 }
 
-// Renderiza children solo si HAY sesión (si no, muestra fallback o nada)
+// --------- Wrappers de visibilidad ---------
+
+// Muestra children solo si HAY sesión (si no, muestra fallback)
 export function AuthIsSignedIn({
   children,
   fallback = null,
@@ -89,11 +97,11 @@ export function AuthIsSignedIn({
   fallback?: ReactNode;
 }) {
   const { isSignedIn, loading } = useAuth();
-  if (loading) return fallback;
+  if (loading) return <>{fallback}</>;
   return isSignedIn ? <>{children}</> : <>{fallback}</>;
 }
 
-// Renderiza children solo si NO hay sesión (si sí hay, muestra fallback o nada)
+// Muestra children solo si NO hay sesión (si sí hay, muestra fallback)
 export function AuthIsNotSignedIn({
   children,
   fallback = null,
@@ -102,8 +110,22 @@ export function AuthIsNotSignedIn({
   fallback?: ReactNode;
 }) {
   const { isSignedIn, loading } = useAuth();
-  if (loading) return fallback;
+  if (loading) return <>{fallback}</>;
   return !isSignedIn ? <>{children}</> : <>{fallback}</>;
+}
+
+// Solo para admins (si no cumple, muestra fallback)
+export function AdminOnly({
+  children,
+  fallback = null,
+}: {
+  children: ReactNode;
+  fallback?: ReactNode;
+}) {
+  const { loading, isSignedIn, isAdmin } = useAuth();
+  if (loading) return <>{fallback}</>;
+  if (!isSignedIn || !isAdmin) return <>{fallback}</>;
+  return <>{children}</>;
 }
 
 export default AuthProvider;

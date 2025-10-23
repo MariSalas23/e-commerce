@@ -8,7 +8,8 @@ import { useAuth } from '../../contexts/AuthContext';
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { refresh } = useAuth(); 
+  const { refresh } = useAuth();
+
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (loading) return;
@@ -21,16 +22,30 @@ const Login = () => {
     try {
       const res = await api.post('/auth/login', { email, password });
 
+      // si la API devuelve error con JSON { error: "..." }
       if (res.status >= 400) {
         const err = (res.data as any)?.error;
         throw new Error(typeof err === 'string' ? err : 'Error al iniciar sesión');
       }
 
-      // Sincroniza el AuthContext con la cookie recién creada
+      // ✅ Consultamos quién soy y decidimos destino
+      const me = await api.get('/auth/me'); // la cookie HttpOnly ya está
+      const u = me?.data?.user || {};
+      const emailLower = String(u.email || '').toLowerCase();
+      const nameLower = String(u.name || '').toLowerCase();
+
+      // Correos/nombre válidos de admin
+      const adminEmails = [
+        'administrador@adminarepabuela.com',
+        'administrador@adminarepabuela.co',
+      ];
+      const isAdmin = adminEmails.includes(emailLower) || nameLower === 'administrador';
+
+      // Sincroniza el contexto (user, isSignedIn, etc.)
       await refresh();
 
-      // Ir a tienda
-      navigate('/tienda');
+      // 🚀 Redirige según el rol
+      navigate(isAdmin ? '/admin' : '/tienda');
     } catch (err: any) {
       const msg =
         err?.response?.data?.error ??

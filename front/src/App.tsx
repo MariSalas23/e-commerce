@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import AuthProvider, { AuthIsNotSignedIn, AuthIsSignedIn } from "./contexts/AuthContext";
+import AuthProvider, { AuthIsNotSignedIn, AuthIsSignedIn, AdminOnly } from "./contexts/AuthContext";
 
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
@@ -116,11 +116,15 @@ function App() {
               </AuthIsSignedIn>
             }
           />
+
+          {/* SOLO ADMIN */}
           <Route
             path="/admin"
             element={
               <AuthIsSignedIn fallback={<Navigate to="/" replace />}>
-                <Admin />
+                <AdminOnly fallback={<Navigate to="/" replace />}>
+                  <Admin />
+                </AdminOnly>
               </AuthIsSignedIn>
             }
           />
