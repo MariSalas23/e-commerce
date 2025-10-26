@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import './Signin.css';
 import imgArepas from '../../assets/arepas.png';
 import { api } from '../../api/api'; // ← usamos el mismo cliente que en Login
+import { useNavigate } from 'react-router-dom';
 
 const Signin: React.FC = () => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -12,25 +14,20 @@ const Signin: React.FC = () => {
     setLoading(true);
 
     const fd = new FormData(e.currentTarget);
+  
     const name = String(fd.get('name') || '').trim();
     const email = String(fd.get('email') || '').trim();
     const password = String(fd.get('password') || '');
 
     try {
       // Axios ya manda JSON y parsea la respuesta
-      const res = await api.post('/auth/register', { name, email, password });
+      await api.post('/auth/register', { name, email, password });
 
-      // Si la API devolviera { error: "..." } con 4xx/5xx,
-      // axios lanza excepción y caemos al catch.
-      if (res.status >= 400) {
-        const err = (res.data as any)?.error;
-        throw new Error(typeof err === 'string' ? err : 'Error al registrarse');
-      }
-
-      // éxito: redirige a home (ajusta si tu ruta de éxito es otra)
-      window.location.href = '/';
+      // Si hubiera error 4xx/5xx, axios lanza excepción y caemos al catch.
+      // Si llega aquí, fue 201 { ok:true, pending:true, user:{...} }
+      // ✅ Redirige a la pantalla de confirmación/espera
+      navigate('/solicitud');
     } catch (err: any) {
-      // normaliza mensaje (axios o red)
       const msg =
         err?.response?.data?.error ??
         err?.message ??
@@ -71,7 +68,7 @@ const Signin: React.FC = () => {
                 className="input-signin"
                 type="email"
                 id="correo"
-                name="email"             // ← API espera "email"
+                name="email"             
                 placeholder="Ingresa tu correo"
                 required
                 autoComplete="email"
@@ -84,7 +81,7 @@ const Signin: React.FC = () => {
                 className="input-signin"
                 type="password"
                 id="password"
-                name="password"          // ← API espera "password"
+                name="password"         
                 placeholder="Ingresa tu contraseña"
                 required
                 minLength={6}
@@ -97,7 +94,7 @@ const Signin: React.FC = () => {
             <button
               className="btn-regresar-signin"
               type="button"
-              onClick={() => window.history.back()}
+              onClick={() => navigate('/')}
             >
               Regresar
             </button>

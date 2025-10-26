@@ -1,3 +1,4 @@
+// front/src/pages/admin/Admin.tsx
 import './Admin.css';
 import imgCesta from '../../assets/cesta.png';
 import imgPerfil from '../../assets/perfil.png';
@@ -6,9 +7,68 @@ import logo_blanco from '../../assets/logo_blanco.jpg';
 import carrito from '../../assets/carrito.jpg';
 import perfil from '../../assets/perfil.png';
 import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { api } from '../../api/api'; // axios con baseURL=/api y withCredentials=true
 
-const Admin = () => {
-  const navigate = useNavigate(); 
+type PendingUser = {
+  id: number;
+  name: string;
+  email: string;
+  created_at?: string;
+};
+
+const Admin: React.FC = () => {
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(true);
+  const [pending, setPending] = useState<PendingUser[]>([]);
+  const [workingId, setWorkingId] = useState<number | null>(null);
+
+  async function loadPending() {
+    setLoading(true);
+    try {
+      const r = await api.get('/admin/pending');
+      setPending(Array.isArray(r?.data?.users) ? r.data.users : []);
+    } catch (e: any) {
+      const msg = e?.response?.data?.error ?? e?.message ?? 'No se pudieron cargar las solicitudes';
+      alert(msg);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function approve(id: number) {
+    if (workingId) return;
+    setWorkingId(id);
+    try {
+      await api.post(`/admin/users/${id}/approve`);
+      setPending((prev) => prev.filter((u) => u.id !== id));
+    } catch (e: any) {
+      const msg = e?.response?.data?.error ?? e?.message ?? 'No se pudo aprobar';
+      alert(msg);
+    } finally {
+      setWorkingId(null);
+    }
+  }
+
+  async function reject(id: number) {
+    if (workingId) return;
+    if (!confirm('¿Seguro que deseas rechazar/eliminar esta solicitud?')) return;
+    setWorkingId(id);
+    try {
+      await api.delete(`/admin/users/${id}`);
+      setPending((prev) => prev.filter((u) => u.id !== id));
+    } catch (e: any) {
+      const msg = e?.response?.data?.error ?? e?.message ?? 'No se pudo rechazar';
+      alert(msg);
+    } finally {
+      setWorkingId(null);
+    }
+  }
+
+  useEffect(() => {
+    loadPending();
+  }, []);
 
   return (
     <div className="contenedor-admin">
@@ -22,14 +82,14 @@ const Admin = () => {
             src={carrito}
             alt="Carrito"
             className="icono-carrito"
-            onClick={() => navigate('/carrito')} 
+            onClick={() => navigate('/carrito')}
             style={{ cursor: 'pointer' }}
-            />
+          />
           <img
             src={perfil}
             alt="Perfil"
             className="icono-carrito"
-            onClick={() => navigate('/perfil')} 
+            onClick={() => navigate('/perfil')}
             style={{ cursor: 'pointer' }}
           />
         </div>
@@ -41,19 +101,56 @@ const Admin = () => {
         <div className="control-usuarios">
           <h1 className="titulo-control-usuarios">Control de usuarios</h1>
           <h2 className="subtitulo-control-usuarios">Validación de usuarios nuevos</h2>
-          <div className="usuario-nuevo">
-            <div className="columnas-usuario-nuevo">
-              <img src={imgPerfil} alt="Perfil" className="imagen-perfil-admin" />
-              <div className="texto-usuario-nuevo">
-                <p className="nombre-usuario-nuevo">Nombre</p>
-                <p className="correo-usuario-nuevo">Correo</p>
-                <div className="botones-usuario-nuevo">
-                  <button className="usuario-rechazar">Rechazar</button>
-                  <button className="usuario-aceptar">Aceptar</button>
+
+          {/* Lista de pendientes */}
+          {loading && (
+            <div className="usuario-nuevo">
+              <div className="columnas-usuario-nuevo">
+                <div className="texto-usuario-nuevo">
+                  <p className="nombre-usuario-nuevo">Cargando solicitudes…</p>
                 </div>
               </div>
             </div>
-          </div>
+          )}
+
+          {!loading && pending.length === 0 && (
+            <div className="usuario-nuevo">
+              <div className="columnas-usuario-nuevo">
+                <div className="texto-usuario-nuevo">
+                  <p className="nombre-usuario-nuevo">No hay solicitudes pendientes</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {!loading &&
+            pending.map((u) => (
+              <div className="usuario-nuevo" key={u.id}>
+                <div className="columnas-usuario-nuevo">
+                  <img src={imgPerfil} alt="Perfil" className="imagen-perfil-admin" />
+                  <div className="texto-usuario-nuevo">
+                    <p className="nombre-usuario-nuevo">{u.name}</p>
+                    <p className="correo-usuario-nuevo">{u.email}</p>
+                    <div className="botones-usuario-nuevo">
+                      <button
+                        className="usuario-rechazar"
+                        onClick={() => reject(u.id)}
+                        disabled={workingId === u.id}
+                      >
+                        Rechazar
+                      </button>
+                      <button
+                        className="usuario-aceptar"
+                        onClick={() => approve(u.id)}
+                        disabled={workingId === u.id}
+                      >
+                        Aceptar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
         </div>
 
         <div className="control-productos">
@@ -64,19 +161,9 @@ const Admin = () => {
             <div className="columnas-producto-nuevo">
               <img src={imgImagen} alt="Agregar imagen" className="imagen-producto-admin" />
               <div className="nombre-descripcion">
-                <input
-                  type="text"
-                  placeholder="Nombre del producto"
-                  className="nombre-producto-nuevo"
-                />
-                <textarea
-                  placeholder="Descripción del producto"
-                  className="descripcion-producto-nuevo"
-                />
-                <input
-                  placeholder="Precio (COP)"
-                  className="precio-producto-admin"
-                />
+                <input type="text" placeholder="Nombre del producto" className="nombre-producto-nuevo" />
+                <textarea placeholder="Descripción del producto" className="descripcion-producto-nuevo" />
+                <input placeholder="Precio (COP)" className="precio-producto-admin" />
               </div>
             </div>
           </div>

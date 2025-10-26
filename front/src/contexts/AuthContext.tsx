@@ -2,6 +2,7 @@ import {
   createContext,
   useContext,
   useEffect,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -15,7 +16,7 @@ type User = {
 
 type AuthContextType = {
   user: User | null;
-  loading: boolean;
+  loading: boolean; // solo primera carga
   isSignedIn: boolean;
   isAdmin: boolean;
   refresh: () => Promise<void>;
@@ -27,45 +28,61 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const initializedRef = useRef(false);
+  const focusTimer = useRef<number | undefined>(undefined);
+
+  const callMe = async () => {
+    const first = !initializedRef.current;
+    if (first) setLoading(true);
+
+    try {
+      const res = await api.get("/auth/me", { validateStatus: () => true });
+
+      if (res.status === 200 && res.data?.user) {
+        setUser(res.data.user as User);
+      } else if (res.status === 401 || res.status === 403) {
+        setUser(null);
+      }
+      // si hay 500s, no cerramos sesión
+    } catch (_) {
+      // errores de red: NO tumbar la sesión
+    } finally {
+      if (first) {
+        setLoading(false);
+        initializedRef.current = true;
+      }
+    }
+  };
 
   const refresh = async () => {
-    setLoading(true);
-    try {
-      const res = await api.get("/auth/me"); // cookie HttpOnly via withCredentials
-      if (res?.data?.ok && res?.data?.user) setUser(res.data.user as User);
-      else setUser(null);
-    } catch {
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
+    if (focusTimer.current) return;
+    focusTimer.current = window.setTimeout(() => {
+      focusTimer.current = undefined;
+      void callMe();
+    }, 250) as unknown as number;
   };
 
   const signOut = async () => {
     try {
       await api.post("/auth/logout");
-    } catch {
-      // ignore error
-    } finally {
-      setUser(null);
-    }
+    } catch {}
+    setUser(null);
   };
 
+  // Carga inicial
   useEffect(() => {
-    refresh();
+    void callMe();
   }, []);
 
+  // Refresh al volver a la pestaña
   useEffect(() => {
-    const onFocus = () => refresh();
+    const onFocus = () => void refresh();
     window.addEventListener("focus", onFocus);
     return () => window.removeEventListener("focus", onFocus);
   }, []);
 
-  // Lógica de admin (puedes dejar solo por email si quieres)
-  const adminEmails = ["administrador@adminarepabuela.com"]; // en minúsculas
-  const isAdmin =
-    !!user &&
-    (adminEmails.includes(user.email.toLowerCase()));
+  const adminEmails = ["administrador@adminarepabuela.com"];
+  const isAdmin = !!user && adminEmails.includes(user.email.toLowerCase());
 
   const value: AuthContextType = {
     user,
@@ -79,51 +96,30 @@ function AuthProvider({ children }: { children: ReactNode }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-// Hook para consumir el contexto
 export function useAuth(): AuthContextType {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error("useAuth must be used within <AuthProvider>");
   return ctx;
 }
 
-// --------- Wrappers de visibilidad ---------
+// ---- Guards mejorados ----
 
-// Muestra children solo si HAY sesión (si no, muestra fallback)
-export function AuthIsSignedIn({
-  children,
-  fallback = null,
-}: {
-  children: ReactNode;
-  fallback?: ReactNode;
-}) {
+// SOLO RENDERIZAR CUANDO NO ESTAMOS CARGANDO
+export function AuthIsSignedIn({ children, fallback = null }: any) {
   const { isSignedIn, loading } = useAuth();
-  if (loading) return <>{fallback}</>;
+  if (loading) return null;
   return isSignedIn ? <>{children}</> : <>{fallback}</>;
 }
 
-// Muestra children solo si NO hay sesión (si sí hay, muestra fallback)
-export function AuthIsNotSignedIn({
-  children,
-  fallback = null,
-}: {
-  children: ReactNode;
-  fallback?: ReactNode;
-}) {
+export function AuthIsNotSignedIn({ children, fallback = null }: any) {
   const { isSignedIn, loading } = useAuth();
-  if (loading) return <>{fallback}</>;
+  if (loading) return null;
   return !isSignedIn ? <>{children}</> : <>{fallback}</>;
 }
 
-// Solo para admins (si no cumple, muestra fallback)
-export function AdminOnly({
-  children,
-  fallback = null,
-}: {
-  children: ReactNode;
-  fallback?: ReactNode;
-}) {
-  const { loading, isSignedIn, isAdmin } = useAuth();
-  if (loading) return <>{fallback}</>;
+export function AdminOnly({ children, fallback = null }: any) {
+  const { isAdmin, isSignedIn, loading } = useAuth();
+  if (loading) return null;
   if (!isSignedIn || !isAdmin) return <>{fallback}</>;
   return <>{children}</>;
 }

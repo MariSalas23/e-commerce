@@ -22,14 +22,14 @@ const Login = () => {
     try {
       const res = await api.post('/auth/login', { email, password });
 
-      // si la API devuelve error con JSON { error: "..." }
+      // si la API devuelve error con JSON { error: "..." }, axios lanza excepción (catch)
       if (res.status >= 400) {
         const err = (res.data as any)?.error;
         throw new Error(typeof err === 'string' ? err : 'Error al iniciar sesión');
       }
 
-      // ✅ Consultamos quién soy y decidimos destino
-      const me = await api.get('/auth/me'); // la cookie HttpOnly ya está
+      // Consultamos quién soy y decidimos destino
+      const me = await api.get('/auth/me'); // cookie HttpOnly ya está
       const u = me?.data?.user || {};
       const emailLower = String(u.email || '').toLowerCase();
       const nameLower = String(u.name || '').toLowerCase();
@@ -44,14 +44,22 @@ const Login = () => {
       // Sincroniza el contexto (user, isSignedIn, etc.)
       await refresh();
 
-      // 🚀 Redirige según el rol
+      // Redirige según el rol
       navigate(isAdmin ? '/admin' : '/tienda');
     } catch (err: any) {
-      const msg =
-        err?.response?.data?.error ??
-        err?.message ??
-        'Error al iniciar sesión';
-      alert(msg);
+      const status = err?.response?.status;
+      const apiMsg = err?.response?.data?.error;
+
+      // Mensaje específico si la cuenta está pendiente de aprobación
+      if (status === 403) {
+        alert(apiMsg || 'Tu cuenta está pendiente de aprobación por el administrador');
+      } else {
+        const msg =
+          apiMsg ??
+          err?.message ??
+          'Error al iniciar sesión';
+        alert(msg);
+      }
     } finally {
       setLoading(false);
     }
