@@ -1,28 +1,28 @@
-// ...imports igual
-import { 
-  createContext, useContext, useEffect, useRef, useState, type ReactNode,
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
 } from "react";
 import { api } from "../api/api";
 
-<<<<<<< HEAD
 type User = {
   id: number;
   name: string;
   email: string;
-  avatar?: string | null; // ✅ Nuevo
+  avatar?: string | null; // ✅ avatar desde BD
 };
-=======
-type User = { id: number; name: string; email: string; };
->>>>>>> 1fce0eb8d41ff9f4afbda7a0575303441aafcd12
 
 type AuthContextType = {
   user: User | null;
   loading: boolean;
   isSignedIn: boolean;
   isAdmin: boolean;
-  refresh: (immediate?: boolean) => Promise<void>;   // 👈 acepta bandera
+  refresh: (immediate?: boolean) => Promise<void>; // ✅ firma de tu compañera
   signOut: () => Promise<void>;
-  updateAvatar: (avatarDataUrl: string) => Promise<void>; // ✅ Nuevo
+  updateAvatar: (avatarDataUrl: string) => Promise<void>; // ✅ subir avatar (JSON)
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -33,7 +33,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
   const initializedRef = useRef(false);
   const focusTimer = useRef<number | undefined>(undefined);
 
-  // 👉 factoriza la llamada real a /auth/me para poder "forzarla"
+  // Factorizamos /auth/me para poder forzarlo
   const callMe = async (markLoading = false) => {
     const first = !initializedRef.current;
     if (markLoading || first) setLoading(true);
@@ -44,23 +44,18 @@ function AuthProvider({ children }: { children: ReactNode }) {
       } else if (res.status === 401 || res.status === 403) {
         setUser(null);
       }
-<<<<<<< HEAD
-    } catch (_) {
-      //
-=======
     } catch {
       // no tumbar sesión por errores de red
->>>>>>> 1fce0eb8d41ff9f4afbda7a0575303441aafcd12
     } finally {
       if (markLoading || first) setLoading(false);
       initializedRef.current = true;
     }
   };
 
-  // 👇 ahora refresh soporta modo inmediato
+  // refresh con modo inmediato (sin debounce, sin spinner global)
   const refresh = async (immediate = false) => {
     if (immediate) {
-      await callMe(false);        // sin debounce, y sin spinner global
+      await callMe(false);
       return;
     }
     if (focusTimer.current) return;
@@ -71,28 +66,31 @@ function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signOut = async () => {
-    try { await api.post("/auth/logout"); } catch {}
+    try {
+      await api.post("/auth/logout");
+    } catch {}
     setUser(null);
   };
 
-<<<<<<< HEAD
-  // ✅ Subir avatar al backend
+  // ✅ Subir avatar con JSON (DataURL) y refrescar de inmediato
   const updateAvatar = async (avatarDataUrl: string) => {
-    try {
-      await api.patch("/auth/avatar", { avatarDataUrl });
-      await callMe(); // ✅ Refrescar datos del usuario
-    } catch (err) {
-      console.error("Error updating avatar", err);
+    const res = await api.patch(
+      "/auth/avatar",
+      { avatarDataUrl },
+      { validateStatus: () => true }
+    );
+    if (res.status !== 200) {
+      throw new Error("No se pudo actualizar el avatar");
     }
+    await refresh(true);
   };
 
+  // Carga inicial
   useEffect(() => {
-    void callMe();
+    void callMe(true);
   }, []);
-=======
-  useEffect(() => { void callMe(true); }, []);
->>>>>>> 1fce0eb8d41ff9f4afbda7a0575303441aafcd12
 
+  // Refresh al volver a la pestaña
   useEffect(() => {
     const onFocus = () => void refresh();
     window.addEventListener("focus", onFocus);
@@ -107,9 +105,9 @@ function AuthProvider({ children }: { children: ReactNode }) {
     loading,
     isSignedIn: !!user,
     isAdmin,
-    refresh,                    // 👈 exporta la nueva firma
+    refresh,
     signOut,
-    updateAvatar, // ✅ Nuevo
+    updateAvatar,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -121,21 +119,19 @@ export function useAuth(): AuthContextType {
   return ctx;
 }
 
-<<<<<<< HEAD
 // Guards
-=======
-// Guards: déjalos como los tienes (si loading, retorna null)
->>>>>>> 1fce0eb8d41ff9f4afbda7a0575303441aafcd12
 export function AuthIsSignedIn({ children, fallback = null }: any) {
   const { isSignedIn, loading } = useAuth();
   if (loading) return null;
   return isSignedIn ? <>{children}</> : <>{fallback}</>;
 }
+
 export function AuthIsNotSignedIn({ children, fallback = null }: any) {
   const { isSignedIn, loading } = useAuth();
   if (loading) return null;
   return !isSignedIn ? <>{children}</> : <>{fallback}</>;
 }
+
 export function AdminOnly({ children, fallback = null }: any) {
   const { isAdmin, isSignedIn, loading } = useAuth();
   if (loading) return null;
