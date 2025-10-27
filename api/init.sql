@@ -7,20 +7,24 @@ CREATE TABLE IF NOT EXISTS users (
   email VARCHAR(255) UNIQUE NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
   approved BOOLEAN NOT NULL DEFAULT false,
+  avatar TEXT DEFAULT NULL,
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
 );
 
--- 🔧 MIGRACIÓN idempotente por si la tabla existe sin 'approved'
+-- 🔧 MIGRACIONES idempotentes
 ALTER TABLE users
   ADD COLUMN IF NOT EXISTS approved BOOLEAN NOT NULL DEFAULT false;
+
+ALTER TABLE users
+  ADD COLUMN IF NOT EXISTS avatar TEXT DEFAULT NULL;
 
 -- Índices
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 CREATE INDEX IF NOT EXISTS idx_users_approved ON users(approved);
 
 -- ============================================================
--- Seed del administrador (solo si no existe)
+-- Seed del administrador
 -- ============================================================
 DO $$
 BEGIN

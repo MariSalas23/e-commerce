@@ -12,15 +12,17 @@ type User = {
   id: number;
   name: string;
   email: string;
+  avatar?: string | null; // ✅ Nuevo
 };
 
 type AuthContextType = {
   user: User | null;
-  loading: boolean; // solo primera carga
+  loading: boolean;
   isSignedIn: boolean;
   isAdmin: boolean;
   refresh: () => Promise<void>;
   signOut: () => Promise<void>;
+  updateAvatar: (avatarDataUrl: string) => Promise<void>; // ✅ Nuevo
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -43,9 +45,8 @@ function AuthProvider({ children }: { children: ReactNode }) {
       } else if (res.status === 401 || res.status === 403) {
         setUser(null);
       }
-      // si hay 500s, no cerramos sesión
     } catch (_) {
-      // errores de red: NO tumbar la sesión
+      //
     } finally {
       if (first) {
         setLoading(false);
@@ -69,12 +70,20 @@ function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   };
 
-  // Carga inicial
+  // ✅ Subir avatar al backend
+  const updateAvatar = async (avatarDataUrl: string) => {
+    try {
+      await api.patch("/auth/avatar", { avatarDataUrl });
+      await callMe(); // ✅ Refrescar datos del usuario
+    } catch (err) {
+      console.error("Error updating avatar", err);
+    }
+  };
+
   useEffect(() => {
     void callMe();
   }, []);
 
-  // Refresh al volver a la pestaña
   useEffect(() => {
     const onFocus = () => void refresh();
     window.addEventListener("focus", onFocus);
@@ -91,6 +100,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     isAdmin,
     refresh,
     signOut,
+    updateAvatar, // ✅ Nuevo
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -102,9 +112,7 @@ export function useAuth(): AuthContextType {
   return ctx;
 }
 
-// ---- Guards mejorados ----
-
-// SOLO RENDERIZAR CUANDO NO ESTAMOS CARGANDO
+// Guards
 export function AuthIsSignedIn({ children, fallback = null }: any) {
   const { isSignedIn, loading } = useAuth();
   if (loading) return null;

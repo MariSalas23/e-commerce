@@ -100,18 +100,30 @@ export async function login(req: Request, res: Response) {
 
 export async function me(req: Request, res: Response) {
   try {
-    const user = (req as any).user; // { userId, email }
-    // Opcional: traer nombre/approved fresco
-    const dbu = await query<{ id:number; name:string; email:string; approved:boolean }>(
-      "SELECT id,name,email,approved FROM users WHERE id=$1",
+    const user = (req as any).user;
+
+    const dbu = await query<{
+      id: number;
+      name: string;
+      email: string;
+      approved: boolean;
+      avatar: string | null;
+    }>(
+      "SELECT id, name, email, approved, avatar FROM users WHERE id=$1",
       [user.userId]
     );
-    return res.json({ ok: true, user: dbu.rows[0] ?? user });
+
+    if (!dbu.rows.length) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    return res.json({ ok: true, user: dbu.rows[0] });
   } catch (err) {
     console.error("me error:", err);
     return res.status(500).json({ error: "Internal server error" });
   }
 }
+
 
 export async function logout(_req: Request, res: Response) {
   try {
@@ -119,6 +131,33 @@ export async function logout(_req: Request, res: Response) {
     return res.json({ ok: true });
   } catch (err) {
     console.error("logout error:", err);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+export async function updateAvatar(req: Request, res: Response) {
+  try {
+    const user = (req as any).user;
+    const { avatarDataUrl } = req.body;
+
+    if (!avatarDataUrl || typeof avatarDataUrl !== "string") {
+      return res.status(400).json({ error: "Avatar inválido" });
+    }
+
+    // Validación básica de formato DataURL
+    const allowed = avatarDataUrl.startsWith("data:image/");
+    if (!allowed) {
+      return res.status(400).json({ error: "Formato de imagen no valido" });
+    }
+
+    await query(
+      "UPDATE users SET avatar=$1, updated_at=NOW() WHERE id=$2",
+      [avatarDataUrl, user.userId]
+    );
+
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error("updateAvatar error:", err);
     return res.status(500).json({ error: "Internal server error" });
   }
 }
