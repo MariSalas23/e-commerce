@@ -3,19 +3,34 @@ import imgArepas from '../../assets/arepas.png';
 import imgPerfil from '../../assets/perfil.png';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useRef } from 'react';
 
 const Perfil = () => {
   const navigate = useNavigate();
-  const { signOut } = useAuth(); 
+  const { signOut } = useAuth();
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleLogout = async () => {
     try {
-      await signOut(); 
-      navigate('/'); 
+      await signOut();
+      navigate('/');
     } catch (err) {
       console.error('Error cerrando sesión:', err);
       alert('No se pudo cerrar sesión');
     }
+  };
+
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    alert(`Seleccionaste: ${file.name}`);
+    // Aquí luego podemos: mostrar preview o subir al backend
   };
 
   return (
@@ -27,24 +42,45 @@ const Perfil = () => {
         </div>
 
         <div className="contenedor-texto-perfil">
-          <img src={imgPerfil} alt="Perfil" />
+
+          {/* Imagen ahora es clickable */}
+          <img
+            src={imgPerfil}
+            alt="Perfil"
+            style={{ cursor: 'pointer' }}
+            onClick={handleImageClick}
+          />
+
+          {/* Input oculto */}
+          <input
+            type="file"
+            ref={fileInputRef}
+            accept="image/*"
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+          />
+
           <div className="contenedor-titulo-perfil">
             <h1 className="titulo-perfil">Nombre Apellido</h1>
             <h2 className="subtitulo-perfil">Correo@gmail.com</h2>
           </div>
-        
-         <div className="botones-perfil">
-              <button onClick={() => navigate('/historial')} className="btn-historial">Historial</button>
-              <div className="botones-fila">
-                <button onClick={() => navigate('/tienda')} className="btn-regresar-perfil">Regresar</button>
-                <button
-                  className="btn-logout"
-                  onClick={handleLogout}
-                >
-                  Log out
-                </button>
-              </div>
-        </div>
+
+          <div className="botones-perfil">
+            <button onClick={() => navigate('/historial')} className="btn-historial">
+              Historial
+            </button>
+
+            <div className="botones-fila">
+              <button onClick={() => navigate('/tienda')} className="btn-regresar-perfil">
+                Regresar
+              </button>
+
+              <button className="btn-logout" onClick={handleLogout}>
+                Log out
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
