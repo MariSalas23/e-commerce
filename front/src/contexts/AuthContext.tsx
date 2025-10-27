@@ -4,7 +4,16 @@ import {
 } from "react";
 import { api } from "../api/api";
 
+<<<<<<< HEAD
+type User = {
+  id: number;
+  name: string;
+  email: string;
+  avatar?: string | null; // ✅ Nuevo
+};
+=======
 type User = { id: number; name: string; email: string; };
+>>>>>>> 1fce0eb8d41ff9f4afbda7a0575303441aafcd12
 
 type AuthContextType = {
   user: User | null;
@@ -13,6 +22,7 @@ type AuthContextType = {
   isAdmin: boolean;
   refresh: (immediate?: boolean) => Promise<void>;   // 👈 acepta bandera
   signOut: () => Promise<void>;
+  updateAvatar: (avatarDataUrl: string) => Promise<void>; // ✅ Nuevo
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -34,8 +44,13 @@ function AuthProvider({ children }: { children: ReactNode }) {
       } else if (res.status === 401 || res.status === 403) {
         setUser(null);
       }
+<<<<<<< HEAD
+    } catch (_) {
+      //
+=======
     } catch {
       // no tumbar sesión por errores de red
+>>>>>>> 1fce0eb8d41ff9f4afbda7a0575303441aafcd12
     } finally {
       if (markLoading || first) setLoading(false);
       initializedRef.current = true;
@@ -60,7 +75,23 @@ function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   };
 
+<<<<<<< HEAD
+  // ✅ Subir avatar al backend
+  const updateAvatar = async (avatarDataUrl: string) => {
+    try {
+      await api.patch("/auth/avatar", { avatarDataUrl });
+      await callMe(); // ✅ Refrescar datos del usuario
+    } catch (err) {
+      console.error("Error updating avatar", err);
+    }
+  };
+
+  useEffect(() => {
+    void callMe();
+  }, []);
+=======
   useEffect(() => { void callMe(true); }, []);
+>>>>>>> 1fce0eb8d41ff9f4afbda7a0575303441aafcd12
 
   useEffect(() => {
     const onFocus = () => void refresh();
@@ -78,6 +109,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     isAdmin,
     refresh,                    // 👈 exporta la nueva firma
     signOut,
+    updateAvatar, // ✅ Nuevo
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -89,7 +121,11 @@ export function useAuth(): AuthContextType {
   return ctx;
 }
 
+<<<<<<< HEAD
+// Guards
+=======
 // Guards: déjalos como los tienes (si loading, retorna null)
+>>>>>>> 1fce0eb8d41ff9f4afbda7a0575303441aafcd12
 export function AuthIsSignedIn({ children, fallback = null }: any) {
   const { isSignedIn, loading } = useAuth();
   if (loading) return null;

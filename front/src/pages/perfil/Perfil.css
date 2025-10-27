@@ -1,5 +1,5 @@
 * {
-    margin: 0 ;
+    margin: 0;
     padding: 0;
     color: var(--black);
 }
@@ -9,6 +9,7 @@
     box-sizing: border-box;
 }
 
+/* ---------------- CONTENEDOR PRINCIPAL ---------------- */
 .contenedor-perfil {
     height: 100vh;
     width: 100vw;
@@ -24,120 +25,149 @@
     height: 28rem;
     border-radius: 0.5rem;
     box-shadow: 3px 3px 10px 10px hsla(0, 0%, 0%, 0.2);
-    display: grid;                   
+    display: grid;
     grid-template-columns: 54% 46%;
 }
 
+/* ---------------- IMAGEN IZQUIERDA ---------------- */
 .contenedor-imagen-perfil {
     background-color: var(--white);
     display: grid;
     place-items: center;
     border-radius: 0.5rem;
-
-    img {
-        width: min(90%, 300px);
-        max-width: 300px;
-        height: auto;
-        display: block;
-        border-radius: 0.5rem;
-    }
 }
 
+.contenedor-imagen-perfil img {
+    width: min(90%, 300px);
+    max-width: 300px;
+    height: auto;
+    border-radius: 0.5rem;
+    display: block;
+}
+
+/* ---------------- PANEL PERFIL ---------------- */
 .contenedor-texto-perfil {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;  
+    align-items: center;
     text-align: center;
     gap: 1.5rem;
     margin: 2.3rem;
     margin-right: 3.6rem;
+}
 
-    img {
-        width: min(85%, 300px);
-        max-width: 300px;
-        height: auto;
-        display: block;
-    }
+/* ---------------- AVATAR ---------------- */
+.perfil-avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    margin: 0 auto;
+    cursor: pointer;
+    border: 3px solid var(--white);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);
+    position: relative;
+}
 
-    .contenedor-titulo-perfil {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
+.perfil-avatar:hover {
+    filter: brightness(55%);
+}
 
-    .titulo-perfil {
+/* Overlay e ícono "+" */
+.avatar-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.25s ease;
+}
+
+.perfil-avatar:hover .avatar-overlay {
+    opacity: 1;
+}
+
+.avatar-plus {
+    font-size: 2rem;
+    color: var(--white);
+    font-weight: bold;
+}
+
+/* ---------------- DATOS DE USUARIO ---------------- */
+.contenedor-titulo-perfil {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.titulo-perfil {
     font-family: var(--poppins);
     font-size: 1.3rem;
     font-weight: 500;
-    }
+}
 
-    .subtitulo-perfil {
+.subtitulo-perfil {
     font-family: var(--poppins);
     font-size: 0.9rem;
     font-weight: 300;
-    }
 }
 
+/* ---------------- BOTONES ---------------- */
 .botones-perfil {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%; 
-    gap: 1rem;   
-    
-    .botones-fila {
-        display: flex;
-        flex-direction: row;
-        gap: 1rem;  
-    }
-
-    .btn-historial {
-        background-color: var(--dark-green);
-        color: var(--white);
-        border: 0;
-        padding: 0.6rem 0.9rem;
-        border-radius: 0.5rem;
-        font-family: var(--poppins);
-        font-size: 0.88rem;
-        font-weight: 600;
-        width: 11.7rem;
-    }
-
-    .btn-regresar-perfil {
-        background-color: var(--light-grey);
-        color: var(--dark-green);
-        border: 0;
-        padding: 0.6rem 0.9rem;
-        border-radius: 0.5rem;
-        font-family: var(--poppins);
-        font-size: 0.88rem;
-        font-weight: 600;
-    }
-
-    .btn-logout {
-        background-color: var(--light-green);
-        color: var(--dark-green);
-        border: 0;
-        padding: 0.6rem 0.9rem;
-        border-radius: 0.5rem;
-        font-family: var(--poppins);
-        font-size: 0.88rem;
-        font-weight: 600;
-    }
+    gap: 1.0rem;
+    width: 100%;
 }
 
-.btn-logout:hover {
-  background-color: var(--grey-hover);
-  color: var(--dark-green);
+.btn-historial {
+    background-color: var(--dark-green);
+    color: var(--white);
+    border: 0;
+    padding: 0.6rem 0.9rem;
+    border-radius: 0.5rem;
+    font-family: var(--poppins);
+    font-size: 0.88rem;
+    font-weight: 600;
+    width: 11.7rem;
 }
 
-.btn-regresar-perfil:hover {
-  background-color: var(--grey-hover);
-  color: var(--dark-green);
+.botones-fila {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
 }
 
+.btn-regresar-perfil {
+    background-color: var(--light-grey);
+    color: var(--dark-green);
+    border: 0;
+    padding: 0.6rem 0.9rem;
+    border-radius: 0.5rem;
+    font-family: var(--poppins);
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.btn-logout {
+    background-color: var(--light-green);
+    color: var(--dark-green);
+    border: 0;
+    padding: 0.6rem 0.9rem;
+    border-radius: 0.5rem;
+    font-family: var(--poppins);
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.btn-logout:hover,
+.btn-regresar-perfil:hover,
 .btn-historial:hover {
     background-color: var(--grey-hover);
     color: var(--dark-green);
