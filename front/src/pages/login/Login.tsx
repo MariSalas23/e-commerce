@@ -34,18 +34,16 @@ const Login = () => {
       const emailLower = String(u.email || '').toLowerCase();
       const nameLower = String(u.name || '').toLowerCase();
 
-      // Correos/nombre válidos de admin
-      const adminEmails = [
-        'administrador@adminarepabuela.com',
-        'administrador@adminarepabuela.co',
-      ];
-      const isAdmin = adminEmails.includes(emailLower) || nameLower === 'administrador';
+      // Solo este correo es admin
+      const isAdmin =
+        emailLower === 'administrador@adminarepabuela.com' ||
+        nameLower === 'administrador';
 
-      // Sincroniza el contexto (user, isSignedIn, etc.)
-      await refresh();
+      // 🔑 Sincroniza el contexto SIN debounce y ESPERA a que termine
+      await refresh(true);
 
-      // Redirige según el rol
-      navigate(isAdmin ? '/admin' : '/tienda');
+      // Redirige según el rol (replace evita volver al /login con Back)
+      navigate(isAdmin ? '/admin' : '/tienda', { replace: true });
     } catch (err: any) {
       const status = err?.response?.status;
       const apiMsg = err?.response?.data?.error;
@@ -121,4 +119,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Login;
