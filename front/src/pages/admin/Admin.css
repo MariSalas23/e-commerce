@@ -209,3 +209,34 @@
 .descripcion-producto-nuevo {
     width: 20rem;
 }
+
+.contenedor-imagen-admin {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.overlay-imagen-admin {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 0.5rem;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s;
+}
+
+.contenedor-imagen-admin:hover .overlay-imagen-admin {
+  opacity: 1;
+}
+
+.plus-admin {
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+}

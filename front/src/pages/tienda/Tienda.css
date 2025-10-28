@@ -118,8 +118,12 @@
 
     img {
         width: 100%;
-        height: 100%;
+        height: 160px;          /* 🔧 altura fija y uniforme */
+        object-fit: cover;      /* mantiene proporciones y recorta el exceso */
+        object-position: center;/* centra el contenido visible */
         border-radius: 0.5rem;
+        background-color: #f8f8f8; /* color neutro si no carga la imagen */
+        display: block;
     }
 }
 
