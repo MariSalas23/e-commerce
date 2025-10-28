@@ -22,7 +22,7 @@ services:
       context: ./api
     container_name: ecommerce_api
     ports:
-      - "3000:3000"   # agregado desde tu versión para acceso directo al backend
+      - "3000:3000"   # acceso directo al backend
     environment:
       NODE_ENV: production
       PORT: 3000
@@ -40,6 +40,9 @@ services:
       ARGON2_MEMORY_COST: 65536
       ARGON2_PARALLELISM: 1
     depends_on: [db]
+    volumes:
+      # 👇 Esto es lo importante
+      - ./api/public/images:/app/public/images
     networks: [appnet]
 
   # ============================================================

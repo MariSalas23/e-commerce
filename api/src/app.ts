@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import path from "path"; // 🆕 Importa path
 import authRoutes from "./routes/auth.js";
 import adminRoutes from "./routes/admin.js";
 
@@ -22,6 +23,18 @@ app.use(
       "https://localhost",      // backend local HTTPS
     ],
     credentials: true,
+  })
+);
+
+// ==========================
+// 🖼️ Servir imágenes estáticas
+// ==========================
+app.use(
+  "/images",
+  express.static(path.join(process.cwd(), "public", "images"), {
+    setHeaders: (res, _path) => {
+      res.setHeader("Cache-Control", "public, max-age=86400"); // 1 día
+    },
   })
 );
 

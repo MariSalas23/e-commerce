@@ -20,6 +20,9 @@ RUN if [ -f package-lock.json ]; then npm ci --include=dev; \
 COPY tsconfig.json ./tsconfig.json
 COPY src ./src
 
+# ✅ Copiar carpeta pública (desde la ruta correcta)
+COPY public ./public
+
 # Compilar TypeScript → genera dist/
 RUN npm run build
 
