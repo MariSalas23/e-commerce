@@ -17,7 +17,7 @@ export const pool = new Pool({
   password: DB_PASSWORD,
 });
 
-// ✅ T debe extender QueryResultRow
+// ✅ Función genérica para consultas
 export async function query<T extends pg.QueryResultRow = pg.QueryResultRow>(
   text: string,
   params?: any[]

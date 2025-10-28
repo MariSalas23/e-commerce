@@ -1,4 +1,4 @@
-#!/bin/sh
+﻿#!/bin/sh
 set -e
 CERT_DIR=/etc/nginx/certs
 KEY=$CERT_DIR/localhost.key

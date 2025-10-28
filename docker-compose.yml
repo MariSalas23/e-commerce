@@ -1,4 +1,7 @@
 services:
+  # ============================================================
+  # 🗄️ Base de datos PostgreSQL
+  # ============================================================
   db:
     image: postgres:16-alpine
     container_name: ecommerce_db
@@ -11,10 +14,15 @@ services:
       - ./api/init.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
     networks: [appnet]
 
+  # ============================================================
+  # ⚙️ API Backend (Express + TypeScript)
+  # ============================================================
   api:
     build:
       context: ./api
     container_name: ecommerce_api
+    ports:
+      - "3000:3000"   # agregado desde tu versión para acceso directo al backend
     environment:
       NODE_ENV: production
       PORT: 3000
@@ -34,6 +42,9 @@ services:
     depends_on: [db]
     networks: [appnet]
 
+  # ============================================================
+  # 🌐 Frontend (Nginx)
+  # ============================================================
   web:
     build:
       context: ./nginx
@@ -45,6 +56,9 @@ services:
       - "443:443"
     networks: [appnet]
 
+# ============================================================
+# 📦 Volúmenes y redes
+# ============================================================
 volumes:
   db_data:
 

@@ -53,13 +53,14 @@ function App() {
             }
           />
           <Route
-            path="/producto"
+            path="/producto/:id"
             element={
               <AuthIsSignedIn fallback={<Navigate to="/" replace />}>
                 <Producto />
               </AuthIsSignedIn>
             }
           />
+          <Route path="/producto" element={<Navigate to="/tienda" replace />} />
           <Route
             path="/perfil"
             element={
