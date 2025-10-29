@@ -6,7 +6,7 @@ import perfil from '../../assets/perfil.png';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-// ✅ Tipo que coincide con los campos del backend
+// Tipo que coincide con los campos del backend
 interface Producto {
   id: number;
   name: string;
@@ -32,7 +32,7 @@ const Tienda = () => {
 
         const data = await response.json();
 
-        // 🔄 Normalizamos los datos para que coincidan con el frontend
+        // Normalizamos los datos para que coincidan con el frontend
         const productosFormateados = data.map((p: any) => ({
           id: p.id,
           name: p.name,
@@ -43,7 +43,7 @@ const Tienda = () => {
 
         setProductos(productosFormateados);
       } catch (error) {
-        console.error('❌ Error al cargar productos:', error);
+        console.error('Error al cargar productos:', error);
       } finally {
         setCargando(false);
       }

@@ -163,7 +163,7 @@ export async function logout(_req: Request, res: Response) {
 }
 
 /* =====================================================
-    UPDATE AVATAR ✅ JSON con DataURL
+    UPDATE AVATAR JSON con DataURL
 ===================================================== */
 export async function updateAvatar(req: Request, res: Response) {
   try {

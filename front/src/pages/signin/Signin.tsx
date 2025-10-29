@@ -25,7 +25,7 @@ const Signin: React.FC = () => {
 
       // Si hubiera error 4xx/5xx, axios lanza excepción y caemos al catch.
       // Si llega aquí, fue 201 { ok:true, pending:true, user:{...} }
-      // ✅ Redirige a la pantalla de confirmación/espera
+      // Redirige a la pantalla de confirmación/espera
       navigate('/solicitud');
     } catch (err: any) {
       const msg =
@@ -44,7 +44,7 @@ const Signin: React.FC = () => {
 
         <div className="contenedor-texto-signin">
           <div className="contenedor-titulo-signin">
-            <h1 className="titulo-signin">Sign In</h1>
+            <h1 className="titulo-signin">Sign Up</h1>
           </div>
 
           {/* agregamos id y onSubmit sin cambiar clases/estructura */}

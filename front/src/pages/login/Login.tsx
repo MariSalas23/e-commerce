@@ -39,7 +39,7 @@ const Login = () => {
         emailLower === 'administrador@adminarepabuela.com' ||
         nameLower === 'administrador';
 
-      // 🔑 Sincroniza el contexto SIN debounce y ESPERA a que termine
+      // Sincroniza el contexto SIN debounce y ESPERA a que termine
       await refresh(true);
 
       // Redirige según el rol (replace evita volver al /login con Back)

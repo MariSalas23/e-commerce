@@ -1,4 +1,3 @@
-// api/src/routes/admin.ts
 import { Router } from "express";
 import { requireAuth } from "../middleware/auth.js";
 import { requireAdmin } from "../middleware/isAdmin.js";
@@ -37,24 +36,24 @@ router.post("/products", requireAuth, requireAdmin, async (req, res) => {
       return res.status(400).json({ error: "Faltan campos obligatorios" });
     }
 
-    // 📂 Crear carpeta public/images si no existe
+    // Crear carpeta public/images si no existe
     const imagesDir = path.join(process.cwd(), "public", "images");
     if (!fs.existsSync(imagesDir)) {
       fs.mkdirSync(imagesDir, { recursive: true });
     }
 
-    // 🧠 Generar nombre único
+    // Generar nombre único
     const filename = `${Date.now()}_${name.replace(/\s+/g, "")}.jpg`;
     const filePath = path.join(imagesDir, filename);
 
-    // 🪄 Limpiar base64
+    // Limpiar base64
     const base64Data = imageDataUrl?.replace(/^data:image\/\w+;base64,/, "");
     if (base64Data) {
       const buffer = Buffer.from(base64Data, "base64");
       fs.writeFileSync(filePath, buffer);
     }
 
-    // 🧭 Guardar en BD
+    // Guardar en BD
     const relativePath = `/images/${filename}`;
     const result = await query(
       `INSERT INTO products (name, description, price, image_url, created_at, updated_at)
@@ -65,7 +64,7 @@ router.post("/products", requireAuth, requireAdmin, async (req, res) => {
 
     res.status(201).json(result.rows[0]);
   } catch (error) {
-    console.error("❌ Error al crear producto:", error);
+    console.error("Error al crear producto:", error);
     res.status(500).json({ error: "Error interno al crear producto" });
   }
 });

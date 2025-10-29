@@ -20,9 +20,9 @@ type AuthContextType = {
   loading: boolean;
   isSignedIn: boolean;
   isAdmin: boolean;
-  refresh: (immediate?: boolean) => Promise<void>; // ✅ firma de tu compañera
+  refresh: (immediate?: boolean) => Promise<void>; // Firma de tu compañera
   signOut: () => Promise<void>;
-  updateAvatar: (avatarDataUrl: string) => Promise<void>; // ✅ subir avatar (JSON)
+  updateAvatar: (avatarDataUrl: string) => Promise<void>; // Subir avatar (JSON)
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -72,7 +72,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   };
 
-  // ✅ Subir avatar con JSON (DataURL) y refrescar de inmediato
+  // Subir avatar con JSON (DataURL) y refrescar de inmediato
   const updateAvatar = async (avatarDataUrl: string) => {
     const res = await api.patch(
       "/auth/avatar",

@@ -2,14 +2,14 @@ import express, { Request, Response, NextFunction } from "express";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import path from "path"; // 🆕 Importa path
+import path from "path"; // Importa path
 import authRoutes from "./routes/auth.js";
 import adminRoutes from "./routes/admin.js";
 
 const app = express();
 
 // ==========================
-// 🧩 Middlewares base
+// Middlewares base
 // ==========================
 app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
@@ -27,7 +27,7 @@ app.use(
 );
 
 // ==========================
-// 🖼️ Servir imágenes estáticas
+// Servir imágenes estáticas
 // ==========================
 app.use(
   "/images",
@@ -39,7 +39,7 @@ app.use(
 );
 
 // ==========================
-// 🔍 Endpoints principales
+// Endpoints principales
 // ==========================
 app.get("/api/health", (_req: Request, res: Response) => res.json({ ok: true }));
 
@@ -48,16 +48,16 @@ app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 
 // ==========================
-// ⚠️ Manejador de errores
+// Manejador de errores
 // ==========================
 app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
-  console.error("❌ Error capturado:", err);
+  console.error("Error capturado:", err);
   res.status(err.status || 500).json({
     error: err.message || "Error interno del servidor",
   });
 });
 
 // ==========================
-// 🚀 Exportación
+// Exportación
 // ==========================
 export default app;

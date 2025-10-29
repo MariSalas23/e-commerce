@@ -1,5 +1,5 @@
 -- ============================================================
--- 🧍‍♂️ Tabla de usuarios (creación si no existe)
+-- Tabla de usuarios (creación si no existe)
 -- ============================================================
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
   updated_at TIMESTAMP DEFAULT NOW()
 );
 
--- 🔧 MIGRACIONES idempotentes (solo agregan si faltan columnas)
+-- MIGRACIONES idempotentes (solo agregan si faltan columnas)
 ALTER TABLE users
   ADD COLUMN IF NOT EXISTS approved BOOLEAN NOT NULL DEFAULT false;
 
@@ -24,7 +24,7 @@ CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 CREATE INDEX IF NOT EXISTS idx_users_approved ON users(approved);
 
 -- ============================================================
--- 👑 Semilla del administrador (solo si no existe)
+-- Semilla del administrador (solo si no existe)
 -- ============================================================
 DO $$
 BEGIN
@@ -46,7 +46,7 @@ END
 $$ LANGUAGE plpgsql;
 
 -- ============================================================
--- 🧱 Tabla de productos
+-- Tabla de productos
 -- ============================================================
 CREATE TABLE IF NOT EXISTS products (
   id SERIAL PRIMARY KEY,                      -- ID autoincremental
@@ -63,7 +63,7 @@ CREATE INDEX IF NOT EXISTS idx_products_name ON products(name);
 CREATE INDEX IF NOT EXISTS idx_products_price ON products(price);
 
 -- ============================================================
--- 🧾 Semilla de productos de ejemplo (solo si no existen)
+-- Semilla de productos de ejemplo (solo si no existen)
 -- ============================================================
 INSERT INTO products (name, description, price, image_url)
 SELECT name, description, price, image_url

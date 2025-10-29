@@ -12,7 +12,7 @@ router.get("/me", requireAuth, me);
 router.patch("/avatar", requireAuth, updateAvatar);
 router.post("/logout", logout);
 
-// ✅ Nuevo endpoint de productos
+// Nuevo endpoint de productos
 router.get("/products", requireAuth, async (_req, res) => {
   try {
     const result = await query("SELECT * FROM products ORDER BY id ASC");

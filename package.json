@@ -6,6 +6,7 @@
     "vite": "^7.1.12"
   },
   "devDependencies": {
-    "@types/axios": "^0.14.4"
+    "@types/axios": "^0.14.4",
+    "@types/cors": "^2.8.19"
   }
 }
