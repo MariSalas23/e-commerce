@@ -6,7 +6,6 @@ import perfil from '../../assets/perfil.png';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-// Tipo que coincide con los campos del backend
 interface Producto {
   id: number;
   name: string;
@@ -25,22 +24,17 @@ const Tienda = () => {
       try {
         const response = await fetch('https://localhost/api/auth/products', {
           method: 'GET',
-          credentials: 'include', // incluye cookies si hay autenticación
+          credentials: 'include',
         });
-
         if (!response.ok) throw new Error('Error al obtener los productos');
-
         const data = await response.json();
-
-        // Normalizamos los datos para que coincidan con el frontend
         const productosFormateados = data.map((p: any) => ({
           id: p.id,
           name: p.name,
           description: p.description,
-          price: Number(p.price), // Convierte a número
+          price: Number(p.price),
           image_url: p.image_url,
         }));
-
         setProductos(productosFormateados);
       } catch (error) {
         console.error('Error al cargar productos:', error);
@@ -48,12 +42,12 @@ const Tienda = () => {
         setCargando(false);
       }
     };
-
     fetchProductos();
   }, []);
 
   return (
     <div className="contenedor-tienda">
+      {/* Navbar */}
       <header className="navbar-carrito">
         <div className="logo-container-carrito">
           <img src={logo_blanco} alt="Logo Arepabuelas" className="logo-carrito" />
@@ -77,13 +71,15 @@ const Tienda = () => {
         </div>
       </header>
 
+      {/* Imagen superior */}
       <img src={imgCesta} alt="Arepas" className="arepas-intro" />
 
       <div className="contenedor-columnas-tienda">
-        {/* Sección de Cupones */}
+        {/* Columna cupones */}
         <div className="contenedor-cupones">
           <h1 className="titulo-cupones">Cupones</h1>
           <h2 className="subtitulo-cupones">Cupones disponibles</h2>
+
           <div className="contenedor-cupon">
             <p className="titulo-cupon">Cupón para usuarios nuevos</p>
             <p className="subtitulo-cupon">
@@ -95,46 +91,45 @@ const Tienda = () => {
           </div>
         </div>
 
-        {/* Sección de Productos */}
+        {/* Columna productos */}
         <div className="productos-tienda">
           <h1 className="titulo-productos-tienda">Productos</h1>
           <h2 className="subtitulo-productos-tienda">Productos disponibles para compra</h2>
 
-          <div className="espacio-productos-tienda">
-            {cargando ? (
-              <p>Cargando productos...</p>
-            ) : productos.length > 0 ? (
-              productos.map((producto) => (
-                <div key={producto.id} className="producto-tienda">
-                  <img
-                    src={producto.image_url || '/placeholder.jpg'}
-                    alt={producto.name}
-                    className="imagen-producto-tienda"
-                  />
-                  <div className="texto-producto-tienda">
-                    <p className="titulo-producto-tienda">{producto.name}</p>
-                    <p className="precio-tienda">
-                      {Number(producto.price).toLocaleString('es-CO', {
-                        style: 'currency',
-                        currency: 'COP',
-                      })}
-                    </p>
+            <div className="carrusel-productos">
+              {cargando ? (
+                <p style={{ color: 'white', padding: '0 1rem' }}>Cargando productos...</p>
+              ) : productos.length > 0 ? (
+                productos.map((producto) => (
+                  <div key={producto.id} className="producto-tienda">
+                    <img
+                      src={producto.image_url || '/placeholder.jpg'}
+                      alt={producto.name}
+                    />
+                    <div className="texto-producto-tienda">
+                      <p className="titulo-producto-tienda">{producto.name}</p>
+                      <p className="precio-tienda">
+                        {Number(producto.price).toLocaleString('es-CO', {
+                          style: 'currency',
+                          currency: 'COP',
+                        })}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => navigate(`/producto/${producto.id}`)}
+                      className="btn-informacion"
+                    >
+                      Más información
+                    </button>
                   </div>
-                  <button
-                    onClick={() => navigate(`/producto/${producto.id}`)}
-                    className="btn-informacion"
-                  >
-                    Más información
-                  </button>
-                </div>
-              ))
-            ) : (
-              <p>No hay productos disponibles</p>
-            )}
+                ))
+              ) : (
+                <p style={{ color: 'white', padding: '0 1rem' }}>No hay productos disponibles</p>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

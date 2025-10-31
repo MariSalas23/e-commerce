@@ -4,12 +4,13 @@ import carrito from "../../assets/carrito.jpg";
 import perfil from "../../assets/perfil.png";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { api } from "../../api/api"; // axios con baseURL="/api" y withCredentials=true
 
 type ProductoType = {
   id: number;
   name: string;
   description?: string;
-  price: number | string;
+  price: number;
   image_url?: string;
 };
 
@@ -20,6 +21,7 @@ export default function Producto() {
   const [producto, setProducto] = useState<ProductoType | null>(null);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [adding, setAdding] = useState(false);
 
   useEffect(() => {
     let abort = false;
@@ -31,39 +33,31 @@ export default function Producto() {
           return;
         }
 
-        const res = await fetch(`https://localhost/api/auth/products/${id}`, {
-          method: "GET",
-          credentials: "include", // usa cookie de sesión si tu AuthContext trabaja con cookie
-          // Si usas token en vez de cookie, agrega:
-          // headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-        });
+        // Pedimos el producto al backend protegido
+        const res = await api.get(`/auth/products/${id}`);
+        if (abort) return;
 
-        if (res.status === 401) {
-          // sin sesión → vuelve a home o login
+        const data = res.data;
+        setProducto({
+          id: Number(data.id),
+          name: data.name,
+          description: data.description ?? "",
+          price: Number(data.price),
+          image_url: data.image_url || "",
+        });
+      } catch (e: any) {
+        if (abort) return;
+
+        // Si no hay sesión, redirige (manteniendo tu comportamiento actual)
+        if (e?.response?.status === 401) {
           navigate("/", { replace: true });
           return;
         }
-        if (res.status === 404) {
+        if (e?.response?.status === 404) {
           setError("Producto no encontrado");
           return;
         }
-        if (!res.ok) {
-          const j = await res.json().catch(() => ({}));
-          throw new Error(j?.error || "No se pudo obtener el producto");
-        }
-
-        const data = await res.json();
-        if (!abort) {
-          setProducto({
-            id: data.id,
-            name: data.name,
-            description: data.description,
-            price: Number(data.price),
-            image_url: data.image_url,
-          });
-        }
-      } catch (e: any) {
-        if (!abort) setError(e?.message || "Error desconocido");
+        setError(e?.response?.data?.error || e?.message || "No se pudo obtener el producto");
       } finally {
         if (!abort) setCargando(false);
       }
@@ -74,6 +68,31 @@ export default function Producto() {
       abort = true;
     };
   }, [id, navigate]);
+
+  // Añadir al carrito persistente
+  const addToCart = async () => {
+    if (!producto) return;
+    try {
+      setAdding(true);
+      // Usamos modo "inc" para sumar 1 si ya existe
+      await api.post("/auth/carrito", {
+        productId: producto.id,
+        quantity: 1,
+        mode: "inc",
+      });
+      // Ir al carrito tras agregar
+      navigate("/carrito");
+    } catch (e: any) {
+      // Si no hay sesión, igual que arriba: redirigir
+      if (e?.response?.status === 401) {
+        navigate("/", { replace: true });
+        return;
+      }
+      alert(e?.response?.data?.error || "No se pudo agregar al carrito");
+    } finally {
+      setAdding(false);
+    }
+  };
 
   return (
     <div className="contenedor-producto-header">
@@ -160,14 +179,11 @@ export default function Producto() {
                 </button>
                 <button
                   className="btn-carrito-producto"
-                  onClick={() => {
-                    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-                    cart.push({ id: producto.id, qty: 1 });
-                    localStorage.setItem("cart", JSON.stringify(cart));
-                    navigate("/carrito");
-                  }}
+                  onClick={addToCart}
+                  disabled={adding}
+                  title={adding ? "Agregando..." : "Añadir al carrito"}
                 >
-                  Añadir al carrito
+                  {adding ? "Agregando..." : "Añadir al carrito"}
                 </button>
               </div>
             </div>

@@ -69,11 +69,28 @@ INSERT INTO products (name, description, price, image_url)
 SELECT name, description, price, image_url
 FROM (VALUES
   ('Arepa de maíz blanco', 'Arepa tradicional boyacense elaborada con maíz blanco.', 1500, '/images/arepaMaizBlanco.png'),
-  ('Arepa de choclo', 'Arepa dulce de maíz tierno con queso fundido.', 2500, '/images/arepaChoclo.jpg'),
+  ('Arepa de choclo con queso', 'Arepa dulce de maíz tierno con queso fundido.', 2500, '/images/arepaChoclo.jpg'),
   ('Arepa rellena de queso', 'Arepa gruesa rellena con queso campesino.', 3000, '/images/arepaQueso.jpg'),
   ('Arepa de maíz amarillo', 'Arepa artesanal de maíz amarillo molido.', 1800, '/images/arepaMaizAmarillo.jpg'),
-  ('Combo desayuno', 'Arepa + bebida + acompañamiento.', 7000, '/images/arepaCombo.jpg')
+  ('Combo desayuno arepabuelas', 'Arepa + bebida + acompañamiento.', 7000, '/images/arepaCombo.jpg')
 ) AS data(name, description, price, image_url)
 WHERE NOT EXISTS (
   SELECT 1 FROM products p WHERE p.name = data.name
 );
+
+-- ============================================================
+-- Carrito de compras (persistente por usuario)
+-- ============================================================
+CREATE TABLE IF NOT EXISTS cart_items (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  product_id INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+  quantity INTEGER NOT NULL CHECK (quantity > 0),
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW(),
+  CONSTRAINT uq_cart_items_user_product UNIQUE (user_id, product_id)
+);
+
+-- Índices útiles
+CREATE INDEX IF NOT EXISTS idx_cart_items_user ON cart_items(user_id);
+CREATE INDEX IF NOT EXISTS idx_cart_items_product ON cart_items(product_id);
