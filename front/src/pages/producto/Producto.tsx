@@ -14,30 +14,41 @@ type ProductoType = {
   image_url?: string;
 };
 
+type ComentarioType = {
+  id: number;
+  user_name: string;
+  content: string;
+  created_at: string;
+};
+
 export default function Producto() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
   const [producto, setProducto] = useState<ProductoType | null>(null);
+  const [comentarios, setComentarios] = useState<ComentarioType[]>([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
 
+  // =====================================================
+  // Cargar producto y comentarios
+  // =====================================================
   useEffect(() => {
     let abort = false;
 
-    async function fetchProducto() {
+    async function fetchProductoYComentarios() {
       try {
         if (!id) {
           setError("ID no especificado");
           return;
         }
 
-        // Pedimos el producto al backend protegido
-        const res = await api.get(`/auth/products/${id}`);
+        // === Obtener producto ===
+        const productoRes = await api.get(`/auth/products/${id}`);
         if (abort) return;
 
-        const data = res.data;
+        const data = productoRes.data;
         setProducto({
           id: Number(data.id),
           name: data.name,
@@ -45,45 +56,53 @@ export default function Producto() {
           price: Number(data.price),
           image_url: data.image_url || "",
         });
+
+        // === Obtener comentarios ===
+        const comentariosRes = await api.get(`/auth/comments/${id}`);
+        if (!abort) setComentarios(comentariosRes.data);
       } catch (e: any) {
         if (abort) return;
 
-        // Si no hay sesión, redirige (manteniendo tu comportamiento actual)
         if (e?.response?.status === 401) {
           navigate("/", { replace: true });
           return;
         }
+
         if (e?.response?.status === 404) {
           setError("Producto no encontrado");
           return;
         }
-        setError(e?.response?.data?.error || e?.message || "No se pudo obtener el producto");
+
+        setError(
+          e?.response?.data?.error ||
+            e?.message ||
+            "Error al cargar producto o comentarios"
+        );
       } finally {
         if (!abort) setCargando(false);
       }
     }
 
-    fetchProducto();
+    fetchProductoYComentarios();
     return () => {
       abort = true;
     };
   }, [id, navigate]);
 
-  // Añadir al carrito persistente
+  // =====================================================
+  // Añadir al carrito
+  // =====================================================
   const addToCart = async () => {
     if (!producto) return;
     try {
       setAdding(true);
-      // Usamos modo "inc" para sumar 1 si ya existe
       await api.post("/auth/carrito", {
         productId: producto.id,
         quantity: 1,
         mode: "inc",
       });
-      // Ir al carrito tras agregar
       navigate("/carrito");
     } catch (e: any) {
-      // Si no hay sesión, igual que arriba: redirigir
       if (e?.response?.status === 401) {
         navigate("/", { replace: true });
         return;
@@ -94,11 +113,18 @@ export default function Producto() {
     }
   };
 
+  // =====================================================
+  // Renderizado
+  // =====================================================
   return (
     <div className="contenedor-producto-header">
       <header className="navbar-carrito">
         <div className="logo-container-carrito">
-          <img src={logo_blanco} alt="Logo Arepabuelas" className="logo-carrito" />
+          <img
+            src={logo_blanco}
+            alt="Logo Arepabuelas"
+            className="logo-carrito"
+          />
           <h1 className="nombre-carrito">Arepabuelas</h1>
         </div>
         <div className="iconos-carrito">
@@ -127,13 +153,17 @@ export default function Producto() {
             <h1 className="nombre-producto">Producto</h1>
             <p className="descripcion-producto">❌ {error}</p>
             <div className="botones-producto">
-              <button onClick={() => navigate("/tienda")} className="btn-regresar-producto">
+              <button
+                onClick={() => navigate("/tienda")}
+                className="btn-regresar-producto"
+              >
                 Regresar
               </button>
             </div>
           </div>
         ) : producto ? (
           <>
+            {/* ================== PRODUCTO ================== */}
             <div className="productos-producto">
               <div className="contenedor-titulo-producto">
                 <h1 className="nombre-producto">{producto.name}</h1>
@@ -157,22 +187,45 @@ export default function Producto() {
               </p>
             </div>
 
+            {/* ================== COMENTARIOS ================== */}
             <div className="comentarios-producto">
               <h1 className="titulo-comentario-producto">Comentarios</h1>
               <div className="contenedor-blanco-producto">
-                <div className="comentario-individual-producto">
-                  <h2 className="usuario-comentario-producto">Usuario</h2>
-                  <p className="comentario-producto">¡Sé el primero en comentar!</p>
-                  <div className="linea-verde"></div>
-                </div>
+                {comentarios.length > 0 ? (
+                  comentarios.map((c) => (
+                    <div
+                      key={c.id}
+                      className="comentario-individual-producto"
+                    >
+                      <h2 className="usuario-comentario-producto">
+                        {c.user_name}
+                      </h2>
+                      <p className="comentario-producto">{c.content}</p>
+                      <div className="linea-verde"></div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="comentario-individual-producto">
+                    <h2 className="usuario-comentario-producto">Usuario</h2>
+                    <p className="comentario-producto">
+                      ¡Sé el primero en comentar!
+                    </p>
+                    <div className="linea-verde"></div>
+                  </div>
+                )}
               </div>
 
               <div className="botones-producto">
-                <button onClick={() => navigate("/tienda")} className="btn-regresar-producto">
+                <button
+                  onClick={() => navigate("/tienda")}
+                  className="btn-regresar-producto"
+                >
                   Regresar
                 </button>
                 <button
-                  onClick={() => navigate(`/comentario?producto=${producto.id}`)}
+                  onClick={() =>
+                    navigate(`/comentario?producto=${producto.id}`)
+                  }
                   className="btn-comentar-producto"
                 >
                   Comentar

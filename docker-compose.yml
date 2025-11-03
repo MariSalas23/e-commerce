@@ -51,6 +51,7 @@ services:
   web:
     build:
       context: ./nginx
+      dockerfile: Dockerfile 
     container_name: ecommerce_web
     depends_on: [api]
     volumes:

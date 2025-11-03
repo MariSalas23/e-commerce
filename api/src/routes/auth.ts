@@ -248,4 +248,122 @@ router.patch("/carrito/:productId", requireAuth, async (req, res) => {
   }
 });
 
+// ==========================
+// Comentarios de productos
+// ==========================
+
+// GET /api/auth/comments/:productId → obtiene todos los comentarios de un producto
+router.get("/comments/:productId", requireAuth, async (req, res) => {
+  try {
+    const productId = Number(req.params.productId);
+    if (!Number.isInteger(productId) || productId <= 0) {
+      return res.status(400).json({ error: "ID de producto inválido" });
+    }
+
+    const result = await query(
+      `
+      SELECT 
+        c.id, 
+        c.content, 
+        c.created_at, 
+        u.name AS user_name, 
+        u.avatar
+      FROM comments c
+      JOIN users u ON c.user_id = u.id
+      WHERE c.product_id = $1
+      ORDER BY c.created_at DESC
+      `,
+      [productId]
+    );
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error("Error al obtener comentarios:", error);
+    res.status(500).json({ error: "Error interno al obtener comentarios" });
+  }
+});
+
+
+// POST /api/auth/comments → crea un nuevo comentario
+// Body: { productId: number, content: string }
+router.post("/comments", requireAuth, async (req, res) => {
+  try {
+    const userId = (req as any).user?.userId;
+    const { productId, content } = req.body ?? {};
+
+    if (!userId) return res.status(401).json({ error: "No autenticado" });
+    const pid = Number(productId);
+    if (!Number.isInteger(pid) || pid <= 0) {
+      return res.status(400).json({ error: "ID de producto inválido" });
+    }
+    if (!content || typeof content !== "string" || !content.trim()) {
+      return res.status(400).json({ error: "El comentario no puede estar vacío" });
+    }
+
+    // Verificar que el producto exista
+    const product = await query("SELECT id FROM products WHERE id = $1", [pid]);
+    if (product.rows.length === 0) {
+      return res.status(404).json({ error: "Producto no encontrado" });
+    }
+
+    const inserted = await query(
+      `
+      INSERT INTO comments (user_id, product_id, content, created_at, updated_at)
+      VALUES ($1, $2, $3, NOW(), NOW())
+      RETURNING id, user_id, product_id, content, created_at
+      `,
+      [userId, pid, content.trim()]
+    );
+
+    res.status(201).json({ ok: true, comment: inserted.rows[0] });
+  } catch (error) {
+    console.error("Error al crear comentario:", error);
+    res.status(500).json({ error: "Error interno al crear comentario" });
+  }
+});
+
+
+// DELETE /api/auth/comments/:id → elimina un comentario (solo si es del usuario o admin)
+router.delete("/comments/:id", requireAuth, async (req, res) => {
+  try {
+    const userId = (req as any).user?.userId;
+    const commentId = Number(req.params.id);
+
+    if (!userId) return res.status(401).json({ error: "No autenticado" });
+    if (!Number.isInteger(commentId) || commentId <= 0) {
+      return res.status(400).json({ error: "ID de comentario inválido" });
+    }
+
+    // Verificar si el usuario es el dueño del comentario o administrador
+    const result = await query(
+      `
+      SELECT c.user_id, u.email
+      FROM comments c
+      JOIN users u ON u.id = c.user_id
+      WHERE c.id = $1
+      `,
+      [commentId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Comentario no encontrado" });
+    }
+
+    const comment = result.rows[0];
+    const isOwner = comment.user_id === userId;
+    const isAdmin = comment.email === "administrador@adminarepabuela.com";
+
+    if (!isOwner && !isAdmin) {
+      return res.status(403).json({ error: "No autorizado para eliminar este comentario" });
+    }
+
+    await query("DELETE FROM comments WHERE id = $1", [commentId]);
+    res.json({ ok: true, message: "Comentario eliminado" });
+  } catch (error) {
+    console.error("Error al eliminar comentario:", error);
+    res.status(500).json({ error: "Error interno al eliminar comentario" });
+  }
+});
+
+
 export default router;
