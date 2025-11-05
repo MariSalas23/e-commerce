@@ -115,3 +115,62 @@ CREATE INDEX IF NOT EXISTS idx_comments_product ON comments(product_id);
 -- Restricción opcional: evitar comentarios vacíos o solo espacios
 ALTER TABLE comments
   ADD CONSTRAINT chk_comment_not_empty CHECK (LENGTH(TRIM(content)) > 0);
+
+-- ============================================================
+-- Tabla de órdenes de compra
+-- ============================================================
+CREATE TABLE IF NOT EXISTS orders (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  total_amount DECIMAL(10,2) NOT NULL CHECK (total_amount >= 0),
+  status VARCHAR(50) NOT NULL DEFAULT 'completed', -- completed, pending, cancelled
+  shipping_address TEXT,
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Índices
+CREATE INDEX IF NOT EXISTS idx_orders_user ON orders(user_id);
+CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status);
+
+-- ============================================================
+-- Tabla de tarjetas guardadas
+-- ============================================================
+CREATE TABLE IF NOT EXISTS saved_cards (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  card_last_four VARCHAR(4) NOT NULL,
+  card_holder VARCHAR(120) NOT NULL,
+  card_number_encrypted TEXT NOT NULL,
+  expiration_month INTEGER NOT NULL CHECK (expiration_month >= 1 AND expiration_month <= 12),
+  expiration_year INTEGER NOT NULL,
+  is_default BOOLEAN DEFAULT false,
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Índices
+CREATE INDEX IF NOT EXISTS idx_saved_cards_user ON saved_cards(user_id);
+CREATE INDEX IF NOT EXISTS idx_saved_cards_default ON saved_cards(user_id, is_default);
+
+-- ============================================================
+-- Tabla de transacciones
+-- ============================================================
+CREATE TABLE IF NOT EXISTS transactions (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  order_id INTEGER REFERENCES orders(id) ON DELETE SET NULL,
+  amount DECIMAL(10,2) NOT NULL CHECK (amount > 0),
+  card_last_four VARCHAR(4) NOT NULL,
+  card_holder VARCHAR(120) NOT NULL,
+  status VARCHAR(50) NOT NULL DEFAULT 'completed', -- completed, pending, failed
+  order_items JSONB, -- Almacena los items de la orden en formato JSON
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Índices
+CREATE INDEX IF NOT EXISTS idx_transactions_user ON transactions(user_id);
+CREATE INDEX IF NOT EXISTS idx_transactions_order ON transactions(order_id);
+CREATE INDEX IF NOT EXISTS idx_transactions_status ON transactions(status);
+CREATE INDEX IF NOT EXISTS idx_transactions_created ON transactions(created_at);

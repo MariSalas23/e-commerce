@@ -5,6 +5,7 @@ import carrito from '../../assets/carrito.jpg';
 import perfil from '../../assets/perfil.png';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { api } from '../../api/api';
 
 interface Producto {
   id: number;
@@ -18,17 +19,19 @@ const Tienda = () => {
   const navigate = useNavigate();
   const [productos, setProductos] = useState<Producto[]>([]);
   const [cargando, setCargando] = useState(true);
+  const [isFirstTimeUser, setIsFirstTimeUser] = useState(true);
 
   useEffect(() => {
-    const fetchProductos = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('https://localhost/api/auth/products', {
+        // Fetch productos
+        const productosResponse = await fetch('https://localhost/api/auth/products', {
           method: 'GET',
           credentials: 'include',
         });
-        if (!response.ok) throw new Error('Error al obtener los productos');
-        const data = await response.json();
-        const productosFormateados = data.map((p: any) => ({
+        if (!productosResponse.ok) throw new Error('Error al obtener los productos');
+        const productosData = await productosResponse.json();
+        const productosFormateados = productosData.map((p: any) => ({
           id: p.id,
           name: p.name,
           description: p.description,
@@ -36,13 +39,25 @@ const Tienda = () => {
           image_url: p.image_url,
         }));
         setProductos(productosFormateados);
+
+        // Check if user has made any transactions
+        try {
+          const transactionsResponse = await api.get('/auth/transactions');
+          const transactions = transactionsResponse.data?.transactions || [];
+          setIsFirstTimeUser(transactions.length === 0);
+          console.log('Transactions:', transactions.length, 'isFirstTimeUser:', transactions.length === 0);
+        } catch (err) {
+          console.error('Error fetching transactions:', err);
+          // If error, assume first-time user (show coupon)
+          setIsFirstTimeUser(true);
+        }
       } catch (error) {
-        console.error('Error al cargar productos:', error);
+        console.error('Error al cargar datos:', error);
       } finally {
         setCargando(false);
       }
     };
-    fetchProductos();
+    fetchData();
   }, []);
 
   return (
@@ -75,21 +90,23 @@ const Tienda = () => {
       <img src={imgCesta} alt="Arepas" className="arepas-intro" />
 
       <div className="contenedor-columnas-tienda">
-        {/* Columna cupones */}
-        <div className="contenedor-cupones">
-          <h1 className="titulo-cupones">Cupones</h1>
-          <h2 className="subtitulo-cupones">Cupones disponibles</h2>
+        {/* Columna cupones - Solo mostrar si es primer usuario */}
+        {isFirstTimeUser && (
+          <div className="contenedor-cupones">
+            <h1 className="titulo-cupones">Cupones</h1>
+            <h2 className="subtitulo-cupones">Cupones disponibles</h2>
 
-          <div className="contenedor-cupon">
-            <p className="titulo-cupon">Cupón para usuarios nuevos</p>
-            <p className="subtitulo-cupon">
-              En tu primera compra, recibe el 10% de descuento en Arepabuelas de la esquina.
-            </p>
-            <p className="codigo-cupon">
-              <span className="titulo-codigo">Código:</span> ArepabuelaNew
-            </p>
+            <div className="contenedor-cupon">
+              <p className="titulo-cupon">Cupón para usuarios nuevos</p>
+              <p className="subtitulo-cupon">
+                En tu primera compra, recibe el 10% de descuento en Arepabuelas de la esquina.
+              </p>
+              <p className="codigo-cupon">
+                <span className="titulo-codigo">Código:</span> ArepabuelaNew
+              </p>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Columna productos */}
         <div className="productos-tienda">

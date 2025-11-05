@@ -11,9 +11,14 @@
 
 .contenedor-columnas-tienda {
   display: grid;
-  grid-template-columns: 40% 60%;
+  grid-template-columns: 1fr;
   background-color: var(--light-grey);
   height: 100%;
+}
+
+/* When coupon is visible, use two columns */
+.contenedor-columnas-tienda:has(.contenedor-cupones) {
+  grid-template-columns: 40% 60%;
 }
 
 /* =======================
@@ -146,5 +151,5 @@
    Responsive
 ======================= */
 @media (max-width: 1024px) {
-  .contenedor-columnas-tienda { grid-template-columns: 1fr; }
+  .contenedor-columnas-tienda:has(.contenedor-cupones) { grid-template-columns: 1fr; }
 }

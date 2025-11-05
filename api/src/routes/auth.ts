@@ -1,5 +1,14 @@
 import { Router } from "express";
 import { login, register, me, logout, updateAvatar } from "../controllers/authController.js";
+import {
+  processPayment,
+  getTransactions,
+  getSavedCards,
+  saveCard,
+  deleteSavedCard,
+  setDefaultCard,
+  validateCoupon,
+} from "../controllers/paymentController.js";
 import { requireAuth } from "../middleware/auth.js";
 import { query } from "../db.js";
 
@@ -365,5 +374,46 @@ router.delete("/comments/:id", requireAuth, async (req, res) => {
   }
 });
 
+
+// ==========================
+// Pagos y transacciones
+// ==========================
+
+// POST /api/auth/payment → procesa un pago
+router.post("/payment", requireAuth, processPayment);
+
+// GET /api/auth/transactions → obtiene historial de transacciones del usuario
+router.get("/transactions", requireAuth, getTransactions);
+
+// GET /api/auth/saved-cards → obtiene tarjetas guardadas del usuario
+router.get("/saved-cards", requireAuth, getSavedCards);
+
+// POST /api/auth/saved-cards → guarda una nueva tarjeta
+router.post("/saved-cards", requireAuth, saveCard);
+
+// DELETE /api/auth/saved-cards/:id → elimina una tarjeta guardada
+router.delete("/saved-cards/:id", requireAuth, deleteSavedCard);
+
+// PATCH /api/auth/saved-cards/:id/default → establece una tarjeta como predeterminada
+router.patch("/saved-cards/:id/default", requireAuth, setDefaultCard);
+
+// POST /api/auth/validate-coupon → valida un código de cupón
+router.post("/validate-coupon", requireAuth, async (req, res) => {
+  try {
+    const userId = (req as any).user?.userId;
+    const { couponCode } = req.body ?? {};
+
+    if (!userId) return res.status(401).json({ error: "No autenticado" });
+    if (!couponCode || typeof couponCode !== "string" || !couponCode.trim()) {
+      return res.status(400).json({ error: "Código de cupón requerido" });
+    }
+
+    const result = await validateCoupon(couponCode.trim(), userId);
+    res.json(result);
+  } catch (error) {
+    console.error("Error validating coupon:", error);
+    res.status(500).json({ error: "Error al validar cupón" });
+  }
+});
 
 export default router;

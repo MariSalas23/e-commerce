@@ -9,6 +9,8 @@ services:
       POSTGRES_DB: ecommerce
       POSTGRES_USER: ecommerce
       POSTGRES_PASSWORD: ecommerce
+    ports:
+      - "5432:5432"   # acceso desde DataGrip/herramientas externas
     volumes:
       - db_data:/var/lib/postgresql/data
       - ./api/init.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
