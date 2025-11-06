@@ -63,24 +63,48 @@ const Perfil = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith('image/')) {
-      alert('Selecciona un archivo de imagen válido.');
+    // ✅ Validación estricta antes de subir
+    const validTypes = ['image/jpeg', 'image/png'];
+    if (!validTypes.includes(file.type)) {
+      alert('Solo se permiten imágenes PNG o JPEG.');
       e.target.value = '';
       return;
     }
 
-    // Preview local inmediato
+    if (file.size > 200 * 1024) {
+      alert('La imagen no puede superar los 200 KB.');
+      e.target.value = '';
+      return;
+    }
+
+    // Evitar extensiones engañosas (.jpg.exe, etc.)
+    const nameLower = file.name.toLowerCase();
+    if (!nameLower.endsWith('.jpg') && !nameLower.endsWith('.jpeg') && !nameLower.endsWith('.png')) {
+      alert('El archivo debe tener extensión .jpg, .jpeg o .png.');
+      e.target.value = '';
+      return;
+    }
+
+    // ✅ Previsualización local segura
     const temp = URL.createObjectURL(file);
     setAvatarSrc(temp);
 
     try {
       // Redimensionar/comprimir a DataURL para enviar en JSON
       const dataUrl = await resizeImageToDataURL(file, 512, 0.85);
+
+      // Validar que el DataURL resultante sea seguro antes de enviarlo
+      if (!dataUrl.startsWith('data:image/jpeg') && !dataUrl.startsWith('data:image/png')) {
+        alert('Formato de imagen inválido o potencialmente inseguro.');
+        e.target.value = '';
+        return;
+      }
+
       setAvatarSrc(dataUrl);
 
-      // ✅ Aquí usamos el contrato del backend: JSON { avatarDataUrl }
-      await updateAvatar(dataUrl);      // llama PATCH /api/auth/avatar con JSON
-      await refresh();                  // refresca /auth/me para traer avatar de BD
+      // ✅ Envía al backend (protegido también)
+      await updateAvatar(dataUrl);
+      await refresh();
     } catch (err) {
       console.error(err);
       alert('No se pudo actualizar el avatar');
@@ -102,7 +126,7 @@ const Perfil = () => {
 
         <div className="contenedor-texto-perfil">
 
-          {/* ✅ Avatar circular con background-image (no le afectan reglas globales de img) */}
+          {/* ✅ Avatar circular con background-image */}
           <div
             className="perfil-avatar"
             style={{ backgroundImage: `url(${avatarSrc ?? imgPerfil})` }}

@@ -163,7 +163,7 @@ export async function logout(_req: Request, res: Response) {
 }
 
 /* =====================================================
-    UPDATE AVATAR JSON con DataURL
+    UPDATE AVATAR JSON con DataURL (con seguridad)
 ===================================================== */
 export async function updateAvatar(req: Request, res: Response) {
   try {
@@ -178,10 +178,27 @@ export async function updateAvatar(req: Request, res: Response) {
       return res.status(400).json({ error: "Avatar inválido" });
     }
 
-    // límite de tamaño razonable (200 KB)
+    // Validar tipo MIME permitido
+    const mimeMatch = avatarDataUrl.match(/^data:(image\/(png|jpeg));base64,/);
+    if (!mimeMatch) {
+      return res.status(400).json({ error: "Solo se permiten PNG o JPEG" });
+    }
+
+    // Validar tamaño máximo (200 KB)
     const dataSizeKB = (avatarDataUrl.length * 3) / 4 / 1024;
     if (dataSizeKB > 200) {
       return res.status(413).json({ error: "Imagen demasiado grande" });
+    }
+
+    // Verificar que sea Base64 válido
+    const base64 = avatarDataUrl.split(",")[1];
+    if (!/^[A-Za-z0-9+/=]+$/.test(base64)) {
+      return res.status(400).json({ error: "Formato Base64 inválido" });
+    }
+
+    // ⚠️ Previene almacenamiento de HTML o scripts
+    if (base64.includes("<") || base64.includes(">")) {
+      return res.status(400).json({ error: "Contenido malicioso detectado" });
     }
 
     await query(
