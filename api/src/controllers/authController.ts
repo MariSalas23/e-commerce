@@ -184,9 +184,9 @@ export async function updateAvatar(req: Request, res: Response) {
       return res.status(400).json({ error: "Solo se permiten PNG o JPEG" });
     }
 
-    // Validar tamaño máximo (200 KB)
+    // Validar tamaño máximo (5000 KB)
     const dataSizeKB = (avatarDataUrl.length * 3) / 4 / 1024;
-    if (dataSizeKB > 200) {
+    if (dataSizeKB > 5000) {
       return res.status(413).json({ error: "Imagen demasiado grande" });
     }
 

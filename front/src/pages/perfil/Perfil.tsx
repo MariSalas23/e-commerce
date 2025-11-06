@@ -71,8 +71,8 @@ const Perfil = () => {
       return;
     }
 
-    if (file.size > 200 * 1024) {
-      alert('La imagen no puede superar los 200 KB.');
+    if (file.size > 5000 * 1024) {
+      alert('La imagen no puede superar los 5000 KB.');
       e.target.value = '';
       return;
     }
