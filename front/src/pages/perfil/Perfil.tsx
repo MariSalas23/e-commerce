@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useState, useEffect, useRef } from 'react';
 
-// ✅ Helper: redimensiona y comprime a DataURL para no exceder límites
+// Helper: redimensiona y comprime a DataURL para no exceder límites
 async function resizeImageToDataURL(
   file: File,
   maxSize = 512,       // lado mayor
@@ -63,7 +63,7 @@ const Perfil = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // ✅ Validación estricta antes de subir
+    // Validación estricta antes de subir
     const validTypes = ['image/jpeg', 'image/png'];
     if (!validTypes.includes(file.type)) {
       alert('Solo se permiten imágenes PNG o JPEG.');
@@ -85,7 +85,7 @@ const Perfil = () => {
       return;
     }
 
-    // ✅ Previsualización local segura
+    // Previsualización local segura
     const temp = URL.createObjectURL(file);
     setAvatarSrc(temp);
 
@@ -102,7 +102,7 @@ const Perfil = () => {
 
       setAvatarSrc(dataUrl);
 
-      // ✅ Envía al backend (protegido también)
+      // Envía al backend (protegido también)
       await updateAvatar(dataUrl);
       await refresh();
     } catch (err) {
@@ -126,7 +126,7 @@ const Perfil = () => {
 
         <div className="contenedor-texto-perfil">
 
-          {/* ✅ Avatar circular con background-image */}
+          {/* Avatar circular con background-image */}
           <div
             className="perfil-avatar"
             style={{ backgroundImage: `url(${avatarSrc ?? imgPerfil})` }}

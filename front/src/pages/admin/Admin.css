@@ -142,6 +142,7 @@
     font-weight: 600;
     width: 6rem;
     margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .usuario-rechazar:hover {
@@ -178,6 +179,7 @@
     img {
         width: 90%;
         height: 90%;
+        border-radius: 0.5rem;
     }
 }
 
@@ -241,4 +243,22 @@ textarea.descripcion-producto-nuevo {
   color: white;
   font-size: 2rem;
   font-weight: bold;
+}
+
+.select-producto-admin {
+    margin-top: 1rem;
+    border: none;
+    background-color: var(--grey-hover);
+    border-radius: 0.5rem;
+    width: 100%;
+    padding: 0.4rem;
+    font-family: var(--roboto);
+    font-size: 1rem;
+    color: var(--black);
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--light-green);
+  box-shadow: 0 0 4px var(--light-green);
 }

@@ -90,6 +90,19 @@
     overflow-y: scroll;
 }
 
+.contenedor-blanco-producto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.contenedor-blanco-producto::-webkit-scrollbar-thumb {
+  background-color: var(--light-green);
+  border-radius: 3px;
+}
+
+.contenedor-blanco-producto::-webkit-scrollbar-track {
+  background: var(--light-grey);
+}
+
 .comentario-individual-producto {
     display: flex;
     flex-direction:column;

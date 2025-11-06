@@ -44,10 +44,9 @@ body, input, button {
 
 .input-pago {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  margin-bottom: 20px;
+  padding: 0.6rem 0.6rem;
+  border: 1px solid var(--grey);
+  border-radius: 0.5rem;
   font-family: var(--roboto);
 }
 
@@ -229,8 +228,10 @@ body, input, button {
   align-items: center;
   gap: 10px;
   margin-bottom: 20px;
+  margin-top: 20px;
   cursor: pointer;
   font-weight: 500;
+  font-family: var(--roboto);
 }
 
 .checkbox-label input[type="checkbox"] {
@@ -241,8 +242,6 @@ body, input, button {
 
 .tarjetas-guardadas-pago {
   margin-bottom: 30px;
-  padding: 15px;
-  background-color: var(--light-grey);
   border-radius: 6px;
 }
 
@@ -259,14 +258,14 @@ body, input, button {
 .items-resumen {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   margin-top: 15px;
 }
 
 .item-resumen {
   display: flex;
   justify-content: space-between;
-  padding: 10px;
+  gap: 0.5rem;
   background-color: var(--light-grey);
   border-radius: 4px;
   font-size: 0.95rem;

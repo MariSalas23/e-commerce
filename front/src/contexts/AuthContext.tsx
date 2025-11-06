@@ -12,7 +12,7 @@ type User = {
   id: number;
   name: string;
   email: string;
-  avatar?: string | null; // ✅ avatar desde BD
+  avatar?: string | null; // avatar desde BD
 };
 
 type AuthContextType = {

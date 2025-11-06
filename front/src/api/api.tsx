@@ -29,7 +29,7 @@ api.interceptors.request.use(async (config) => {
     try {
       const token = await getCsrfToken();
 
-      // ✅ Corrección final de tipado
+      // Corrección final de tipado
       const headers = (config.headers ?? {}) as AxiosRequestHeaders;
       headers["X-CSRF-Token"] = token;
       config.headers = headers;

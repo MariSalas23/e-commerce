@@ -148,13 +148,13 @@ const Pago = () => {
 
       if (response.data.valid) {
         setCouponDiscount(response.data.discount);
-        setCouponMessage(`✅ ${response.data.message}`);
+        setCouponMessage(`${response.data.message}`);
       } else {
-        setCouponMessage(`❌ ${response.data.message}`);
+        setCouponMessage(`${response.data.message}`);
       }
     } catch (err: any) {
       const errorMessage = err.response?.data?.error || 'Error al validar cupón';
-      setCouponMessage(`❌ ${errorMessage}`);
+      setCouponMessage(`${errorMessage}`);
     } finally {
       setCouponValidating(false);
     }

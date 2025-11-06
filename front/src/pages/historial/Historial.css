@@ -63,7 +63,7 @@
   font-family: var(--poppins);
   font-size: 1.2rem;
   font-weight: 500;
-  color: var(--light-green);
+  color: var(--dark-green);
 }
 
 .bloque-compra {
@@ -116,7 +116,7 @@
 }
 
 .contenedor-pedidos::-webkit-scrollbar-track {
-  background: #f0f0f0;
+  background: var(--light-grey);
 }
 
 .loading-text,

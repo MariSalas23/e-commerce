@@ -26,7 +26,7 @@ const Comentario = () => {
         content: texto.trim(),
       });
 
-      alert('✅ Comentario publicado con éxito');
+      alert('Comentario publicado con éxito');
       navigate(`/producto/${productoId}`);
     } catch (error: any) {
       console.error('Error al publicar comentario:', error);

@@ -74,8 +74,8 @@
 }
 
 .img-producto {
-  width: 90px;
-  height: 90px;
+  width: 85px;
+  height: 85px;
   object-fit: cover;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -104,7 +104,7 @@
   width: 6.5rem;            /* tamaño fijo */
   text-align: center;
   background-color: #ecefe4;
-  border: 2px solid #d6dcc2;
+  border: none;
   color: #3f4721;
   font-size: .9rem;
   font-weight: 700;

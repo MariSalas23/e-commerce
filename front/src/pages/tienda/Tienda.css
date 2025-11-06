@@ -99,8 +99,14 @@
   align-items: stretch;
 }
 .carrusel-productos::-webkit-scrollbar { height: 8px; }
-.carrusel-productos::-webkit-scrollbar-track { background: rgba(255,255,255,.15); border-radius: 8px; }
-.carrusel-productos::-webkit-scrollbar-thumb { background: rgba(255,255,255,.45); border-radius: 8px; }
+
+.carrusel-productos::-webkit-scrollbar-thumb {
+  background-color: var(--light-green);
+  border-radius: 3px;
+}
+.carrusel-productos::-webkit-scrollbar-track {
+  background: var(--light-grey);
+}
 
 .producto-tienda {
   scroll-snap-align: start;
