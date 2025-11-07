@@ -93,14 +93,7 @@ function App() {
               </AuthIsSignedIn>
             }
           />
-          <Route
-            path="/solicitud"
-            element={
-              <AuthIsSignedIn fallback={<Navigate to="/" replace />}>
-                <Solicitud />
-              </AuthIsSignedIn>
-            }
-          />
+          <Route path="/solicitud" element={<Solicitud />} />
           <Route
             path="/compra"
             element={
