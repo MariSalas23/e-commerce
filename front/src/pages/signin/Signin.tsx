@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
 import './Signin.css';
 import imgArepas from '../../assets/arepas.png';
-import { api } from '../../api/api'; // ← usamos el mismo cliente que en Login
+import { api } from '../../api/api';
 import { useNavigate } from 'react-router-dom';
 
 const Signin: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  // === Helper para validar complejidad ===
+  function validarPassword(pass: string): string | null {
+    if (pass.length < 8) return 'La contraseña debe tener al menos 8 caracteres.';
+    if (!/[A-Z]/.test(pass)) return 'Debe contener al menos una letra mayúscula.';
+    if (!/[a-z]/.test(pass)) return 'Debe contener al menos una letra minúscula.';
+    if (!/[0-9]/.test(pass)) return 'Debe contener al menos un número.';
+    if (!/[!@#$%^&*(),.?":{}|<>_\-+=/\\[\]]/.test(pass))
+      return 'Debe contener al menos un carácter especial.';
+    return null; // ✅ válida
+  }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -14,18 +25,23 @@ const Signin: React.FC = () => {
     setLoading(true);
 
     const fd = new FormData(e.currentTarget);
-  
     const name = String(fd.get('name') || '').trim();
     const email = String(fd.get('email') || '').trim();
     const password = String(fd.get('password') || '');
 
+    // === Validación de complejidad ===
+    const error = validarPassword(password);
+    if (error) {
+      alert(error);
+      setLoading(false);
+      return;
+    }
+
     try {
-      // Axios ya manda JSON y parsea la respuesta
+      // Registro normal
       await api.post('/auth/register', { name, email, password });
 
-      // Si hubiera error 4xx/5xx, axios lanza excepción y caemos al catch.
-      // Si llega aquí, fue 201 { ok:true, pending:true, user:{...} }
-      // Redirige a la pantalla de confirmación/espera
+      // Redirige directo a la pantalla de "esperando aprobación"
       navigate('/solicitud');
     } catch (err: any) {
       const msg =
@@ -41,13 +57,11 @@ const Signin: React.FC = () => {
   return (
     <div className="contenedor-signin">
       <div className="contenedor-blanco-signin">
-
         <div className="contenedor-texto-signin">
           <div className="contenedor-titulo-signin">
             <h1 className="titulo-signin">Sign Up</h1>
           </div>
 
-          {/* agregamos id y onSubmit sin cambiar clases/estructura */}
           <form className="formulario-signin" id="form-signin" onSubmit={onSubmit}>
             <div className="grupo-campo-signin">
               <label htmlFor="nombre">Nombre</label>
@@ -55,7 +69,7 @@ const Signin: React.FC = () => {
                 className="input-signin"
                 type="text"
                 id="nombre"
-                name="name"              // ← API espera "name"
+                name="name"
                 placeholder="Ingresa tu nombre"
                 required
                 autoComplete="name"
@@ -68,7 +82,7 @@ const Signin: React.FC = () => {
                 className="input-signin"
                 type="email"
                 id="correo"
-                name="email"             
+                name="email"
                 placeholder="Ingresa tu correo"
                 required
                 autoComplete="email"
@@ -81,12 +95,14 @@ const Signin: React.FC = () => {
                 className="input-signin"
                 type="password"
                 id="password"
-                name="password"         
+                name="password"
                 placeholder="Ingresa tu contraseña"
                 required
-                minLength={6}
                 autoComplete="new-password"
               />
+              <small style={{ fontSize: '0.85rem', color: '#555' }}>
+                Debe tener mínimo 8 caracteres, una mayúscula, un número y un carácter especial.
+              </small>
             </div>
           </form>
 
@@ -98,11 +114,10 @@ const Signin: React.FC = () => {
             >
               Regresar
             </button>
-            {/* botón fuera del form, lo vinculamos con el atributo 'form' */}
             <button
               className="btn-signin-signin"
               type="submit"
-              form="form-signin"           // ← envía el formulario sin mover elementos
+              form="form-signin"
               disabled={loading}
             >
               {loading ? 'Creando...' : 'Registrarse'}
