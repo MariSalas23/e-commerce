@@ -23,8 +23,10 @@ services:
     build:
       context: ./api
     container_name: ecommerce_api
+    expose:
+      - "3000"   # SOLO visible dentro de la red docker (lo ve Nginx)
     ports:
-      - "3000:3000"   # acceso directo al backend
+      - "3000:3000"   # acceso desde Postman/herramientas externas
     environment:
       NODE_ENV: production
       PORT: 3000
@@ -58,6 +60,8 @@ services:
     depends_on: [api]
     volumes:
       - ./front/dist:/usr/share/nginx/html:ro
+      - ./letsencrypt:/etc/letsencrypt
+      - ./certbot-webroot:/var/www/certbot
     ports:
       - "443:443"
     networks: [appnet]
