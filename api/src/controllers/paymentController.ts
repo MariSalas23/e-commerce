@@ -41,6 +41,42 @@ function parseExpiration(expiration?: string): { month: number; year: number } {
 }
 
 /* ============================================================
+   🔒 AGREGADO: Helpers de validación estricta (16 dígitos y fecha)
+============================================================ */
+// Normaliza a solo dígitos
+function onlyDigits(s: string) {
+  return String(s || "").replace(/\D/g, "");
+}
+
+// Verifica exactamente 16 dígitos
+function isCardNumber16(num?: string) {
+  const digits = onlyDigits(num || "");
+  return /^\d{16}$/.test(digits);
+}
+
+// Parse estricto MM/YY (dos dígitos de año → 2000..2099)
+function parseMMYYStrict(exp?: string): { ok: boolean; month: number; year: number } {
+  const raw = String(exp || "").trim();
+  if (!/^\d{2}\/\d{2}$/.test(raw)) return { ok: false, month: 12, year: 2099 };
+  const [mmStr, yyStr] = raw.split("/");
+  const mm = parseInt(mmStr, 10);
+  const yy = parseInt(yyStr, 10);
+  if (!Number.isFinite(mm) || mm < 1 || mm > 12) return { ok: false, month: 12, year: 2099 };
+  const fullYear = 2000 + yy;
+  return { ok: true, month: mm, year: fullYear };
+}
+
+// Regla: vencida o que venza este mes ⇒ inválida
+function isExpiredOrThisMonthByYM(month: number, year: number): boolean {
+  const now = new Date();
+  const curMonth = now.getMonth() + 1; // 1..12
+  const curYear = now.getFullYear();
+  if (year < curYear) return true;
+  if (year === curYear && month <= curMonth) return true; // incluye este mes
+  return false;
+}
+
+/* ============================================================
    Cupón (igual que antes)
 ============================================================ */
 export async function validateCoupon(
@@ -141,12 +177,33 @@ export async function processPayment(req: Request, res: Response) {
       if (r.rows.length === 0) return res.status(404).json({ error: "Tarjeta guardada no encontrada" });
 
       const sc = r.rows[0];
+
+      /* 🔒 AGREGADO: validar que NO esté vencida ni venza este mes */
+      if (isExpiredOrThisMonthByYM(Number(sc.expiration_month), Number(sc.expiration_year))) {
+        return res.status(400).json({ error: "La tarjeta guardada está vencida o vence este mes" });
+      }
+
       finalCardNumber = decryptCardData(sc.card_number_encrypted);
       finalCardHolder = sc.card_holder;
       cardLastFour = sc.card_last_four;
       month = sc.expiration_month;
       year = sc.expiration_year;
     } else {
+      /* 🔒 AGREGADO: número 16 dígitos y expiración futura (no este mes) */
+      if (!isCardNumber16(cardNumber)) {
+        return res.status(400).json({ error: "El número de tarjeta debe tener exactamente 16 dígitos" });
+      }
+      if (!cardHolder || cardHolder.trim().length < 2) {
+        return res.status(400).json({ error: "Nombre del titular inválido" });
+      }
+      const strictExp = parseMMYYStrict(expiration);
+      if (!strictExp.ok) {
+        return res.status(400).json({ error: "Fecha de expiración inválida (usa MM/YY)" });
+      }
+      if (isExpiredOrThisMonthByYM(strictExp.month, strictExp.year)) {
+        return res.status(400).json({ error: "La tarjeta está vencida o vence este mes" });
+      }
+
       // Tarjeta nueva: aceptamos cualquier número y expiración
       finalCardNumber = String(cardNumber || "");
       finalCardHolder = String(cardHolder || "Titular");
@@ -267,6 +324,18 @@ export async function saveCard(req: Request, res: Response) {
     }
 
     const { cardNumber, cardHolder, expiration, isDefault } = parsed.data;
+
+    /* 🔒 AGREGADO: Validar 16 dígitos y expiración futura (no este mes) */
+    if (!isCardNumber16(cardNumber)) {
+      return res.status(400).json({ error: "El número de tarjeta debe tener exactamente 16 dígitos" });
+    }
+    const strictExp = parseMMYYStrict(expiration);
+    if (!strictExp.ok) {
+      return res.status(400).json({ error: "Fecha de expiración inválida (usa MM/YY)" });
+    }
+    if (isExpiredOrThisMonthByYM(strictExp.month, strictExp.year)) {
+      return res.status(400).json({ error: "La tarjeta está vencida o vence este mes" });
+    }
 
     const { month, year } = parseExpiration(expiration);
     const cardLastFour = getCardLastFour(cardNumber);

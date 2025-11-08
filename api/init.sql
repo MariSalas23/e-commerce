@@ -68,7 +68,7 @@ CREATE INDEX IF NOT EXISTS idx_products_price ON products(price);
 INSERT INTO products (name, description, price, image_url)
 SELECT name, description, price, image_url
 FROM (VALUES
-  ('Arepa de maíz blanco', 'Arepa tradicional boyacense elaborada con maíz blanco.', 1500, '/images/arepaMaizBlanco.png'),
+  ('Arepa de maíz blanco', 'Arepa tradicional boyacense elaborada con maíz blanco.', 1500, '/images/arepaMaizBlanco.jpg'),
   ('Arepa de choclo con queso', 'Arepa dulce de maíz tierno con queso fundido.', 2500, '/images/arepaChoclo.jpg'),
   ('Arepa rellena de queso', 'Arepa gruesa rellena con queso campesino.', 3000, '/images/arepaQueso.jpg'),
   ('Arepa de maíz amarillo', 'Arepa artesanal de maíz amarillo molido.', 1800, '/images/arepaMaizAmarillo.jpg'),
