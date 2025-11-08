@@ -40,15 +40,13 @@ const Tienda = () => {
         }));
         setProductos(productosFormateados);
 
-        // Check if user has made any transactions
+        // Verificar si el usuario tiene transacciones previas
         try {
           const transactionsResponse = await api.get('/auth/transactions');
           const transactions = transactionsResponse.data?.transactions || [];
           setIsFirstTimeUser(transactions.length === 0);
-          console.log('Transactions:', transactions.length, 'isFirstTimeUser:', transactions.length === 0);
         } catch (err) {
           console.error('Error fetching transactions:', err);
-          // If error, assume first-time user (show coupon)
           setIsFirstTimeUser(true);
         }
       } catch (error) {
@@ -89,13 +87,17 @@ const Tienda = () => {
       {/* Imagen superior */}
       <img src={imgCesta} alt="Arepas" className="arepas-intro" />
 
-      <div className="contenedor-columnas-tienda">
-        {/* Columna cupones - Solo mostrar si es primer usuario */}
+      {/* Contenedor principal */}
+      <div
+        className={`contenedor-columnas-tienda ${
+          isFirstTimeUser ? 'con-cupon' : 'sin-cupon'
+        }`}
+      >
+        {/* Columna izquierda (cupón) */}
         {isFirstTimeUser && (
           <div className="contenedor-cupones">
             <h1 className="titulo-cupones">Cupones</h1>
             <h2 className="subtitulo-cupones">Cupones disponibles</h2>
-
             <div className="contenedor-cupon">
               <p className="titulo-cupon">Cupón para usuarios nuevos</p>
               <p className="subtitulo-cupon">
@@ -108,45 +110,45 @@ const Tienda = () => {
           </div>
         )}
 
-        {/* Columna productos */}
+        {/* Columna derecha (productos) */}
         <div className="productos-tienda">
           <h1 className="titulo-productos-tienda">Productos</h1>
           <h2 className="subtitulo-productos-tienda">Productos disponibles para compra</h2>
 
-            <div className="carrusel-productos">
-              {cargando ? (
-                <p style={{ color: 'white', padding: '0 1rem' }}>Cargando productos...</p>
-              ) : productos.length > 0 ? (
-                productos.map((producto) => (
-                  <div key={producto.id} className="producto-tienda">
-                    <img
-                      src={producto.image_url || '/placeholder.jpg'}
-                      alt={producto.name}
-                    />
-                    <div className="texto-producto-tienda">
-                      <p className="titulo-producto-tienda">{producto.name}</p>
-                      <p className="precio-tienda">
-                        {Number(producto.price).toLocaleString('es-CO', {
-                          style: 'currency',
-                          currency: 'COP',
-                        })}
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => navigate(`/producto/${producto.id}`)}
-                      className="btn-informacion"
-                    >
-                      Más información
-                    </button>
+          <div className="carrusel-productos">
+            {cargando ? (
+              <p style={{ color: 'white', padding: '0 1rem' }}>Cargando productos...</p>
+            ) : productos.length > 0 ? (
+              productos.map((producto) => (
+                <div key={producto.id} className="producto-tienda">
+                  <img
+                    src={producto.image_url || '/placeholder.jpg'}
+                    alt={producto.name}
+                  />
+                  <div className="texto-producto-tienda">
+                    <p className="titulo-producto-tienda">{producto.name}</p>
+                    <p className="precio-tienda">
+                      {Number(producto.price).toLocaleString('es-CO', {
+                        style: 'currency',
+                        currency: 'COP',
+                      })}
+                    </p>
                   </div>
-                ))
-              ) : (
-                <p style={{ color: 'white', padding: '0 1rem' }}>No hay productos disponibles</p>
-              )}
-            </div>
+                  <button
+                    onClick={() => navigate(`/producto/${producto.id}`)}
+                    className="btn-informacion"
+                  >
+                    Más información
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p style={{ color: 'white', padding: '0 1rem' }}>No hay productos disponibles</p>
+            )}
           </div>
         </div>
       </div>
+    </div>
   );
 };
 
